@@ -1,10 +1,7 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-      <div class="logo" />
-      
       <Menu />
-
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
@@ -17,44 +14,75 @@
               </a-popover>
             </div>
         </a-row>
-       
-
       </a-layout-header>
+      <!-- 面包屑 -->
+      <div class="breadcrumb">
+        <a-breadcrumb>
+          <a-breadcrumb-item v-for="item in breadcrumbData" :key="item">{{item}}</a-breadcrumb-item>
+        </a-breadcrumb>
+      </div>
+        <!--  -->
       <a-layout-content
         :style="{
-          margin: '24px 16px 10px',
+          margin: '15px 16px 10px',
           padding: '24px',
           background: '#fff',
           minHeight: '280px',
         }"
       >
+
+
         <router-view />
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 <script>
-import Menu from './menu'
+import Menu from './menu' ;
+import { menuData ,rootSubmenuKeys} from '@/constant/const.js' ;
 export default {
   components:{
     Menu
+  },
+  provide () {
+    return {
+      watchBreadcrumb: this.watchBreadcrumb
+    }
   },
   data() {
     return {
       collapsed: false,
       visible: false,
+      breadcrumbData:[]
     };
   },
+
   methods: {
     hide() {
       this.visible = false;
       localStorage.clear() ;
       window.location.reload()
     },
+    watchBreadcrumb({openKeys,key}){
+      console.log('father',openKeys,key);
+      const arr = [openKeys] ;
+      const index = rootSubmenuKeys.indexOf(openKeys) ;
+      menuData[index].arr.forEach(item =>{
+        if(item.key === key){
+           arr.push(item.value) ;
+           this.breadcrumbData = arr ;
+        }
+      })
+    }
   },
 };
 </script>
 <style scoped>
+.breadcrumb{
+  background: #fff;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
 #components-layout-demo-custom-trigger {
   height: 100vh;
 }

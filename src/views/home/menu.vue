@@ -1,80 +1,90 @@
 <template>
   <div>
+    <div class="logo">{{openKeys[0]}}</div>
     <a-menu mode="inline" :open-keys="openKeys" style="width: 100%" theme="dark" 
     @select="selectMenu"
     @openChange="onOpenChange">
-      <a-sub-menu key="sub1">
-        <span slot="title"><a-icon type="mail" /><span>Navigation One</span></span>
-        <a-menu-item key="1">
-          Option 1
-        </a-menu-item>
-        <a-menu-item key="2">
-          Option 2
-        </a-menu-item>
-        <a-menu-item key="3">
-          Option 3
-        </a-menu-item>
-        <a-menu-item key="4">
-          Option 4
-        </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub2">
-        <span slot="title"><a-icon type="appstore" /><span>Navigation Two</span></span>
-        <a-menu-item key="5">
-          Option 5
-        </a-menu-item>
-        <a-menu-item key="6">
-          Option 6
-        </a-menu-item>
-        <a-sub-menu key="sub3" title="Submenu">
-          <a-menu-item key="7">
-            Option 7
+      <template v-for="item in menuData">
+         <a-sub-menu :key="item.key">
+          <span slot="title"><a-icon :type="item.icon" /><span>{{item.title}}</span></span>
+          <template v-for="v in item.arr">
+            <a-menu-item :key="v.key">
+            {{v.value}}
           </a-menu-item>
-          <a-menu-item key="8">
-            Option 8
-          </a-menu-item>
-        </a-sub-menu>
+            <template v-if="v.arr">
+              <template  v-for="vitem in v.arr" >
+                <a-sub-menu :key="vitem.key" :title="vitem.title">
+                  <template  v-for="vv in vitem.arr">
+                    <a-menu-item :key="vv.key">
+                        {{vv.value}}
+                    </a-menu-item>
+                  </template>
+                </a-sub-menu>
+              </template>
+            </template>
+          </template>
       </a-sub-menu>
-      <a-sub-menu key="sub4">
-        <span slot="title"><a-icon type="setting" /><span>Navigation Three</span></span>
-        <a-menu-item key="9">
-          Option 9
-        </a-menu-item>
-        <a-menu-item key="10">
-          Option 10
-        </a-menu-item>
-        <a-menu-item key="11">
-          Option 11
-        </a-menu-item>
-        <a-menu-item key="12">
-          Option 12
-        </a-menu-item>
-      </a-sub-menu>
+      </template>
+      <!-- 得重构成递归组件 -->
     </a-menu>
   </div>
 </template>
 <script>
+import { menuData ,rootSubmenuKeys,openKeys} from '@/constant/const.js' ;
 export default {
+  inject:['watchBreadcrumb'],
   data() {
     return {
-      rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
-      openKeys: ['sub1'],
+      rootSubmenuKeys:rootSubmenuKeys,
+      openKeys:openKeys,
+      menuData:menuData,
+      breadcrumb:{
+        openKeys:'',
+        key:''
+      }
     };
   },
+  // watch:{
+  //   openKeys:{
+  //     immediate:true,
+  //     handler:function(v){
+  //       this.breadcrumb.openKeys = v[0] ;
+  //       this.watchBreadcrumb(this.breadcrumb)
+  //     }
+  //   },
+  //   'breadcrumb.key':{
+  //     immediate:true,
+  //     handler:function(v){
+  //       this.watchBreadcrumb(this.breadcrumb)
+  //     }
+  //   },
+  // },
   methods: {
     onOpenChange(openKeys) {
+      console.log('openKeys',openKeys);
       const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys;
       } else {
         this.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
+      
     },
-    selectMenu(e){
-        // { item, key, selectedKeys }
-        console.log(e);
-        this.$router.replace({ name: 'analyse' })
+    selectMenu({ item, key, selectedKeys }){
+      console.log( key, selectedKeys);
+      this.breadcrumb.key = key ;
+      this.$router.replace({ name: key })
     }
   },
 };
 </script>
+<style scoped>
+.logo{
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+  color: #fff;
+  line-height: 32px;
+  text-align: center;
+}
+</style>

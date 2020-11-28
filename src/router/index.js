@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/home/Home.vue'
+import Analyse_page from '@/views/page_analyse/page'
 import Not_find from '../views/not_find/index.vue'
 
 
@@ -19,10 +20,28 @@ const routes = [
     component: Home,
     children: [
       {
-        path: 'analyse',
-        component: () => import('@/views/pageAnalyse/index'),
-        name: 'Analyse',
-        meta: { title: 'analyse', icon: 'analyse',  }
+        path: 'analyse/page',
+        component: Analyse_page,
+        name: 'Analyse_page',
+        meta: { title: 'Analyse_page' }
+      },
+      {
+        path: 'analyse/recommen',
+        component: () => import('@/views/page_analyse/recommen'),
+        name: 'Analyse_recommen',
+        meta: { title: 'Analyse_recommen' }
+      },
+      {
+        path: 'analyse/order_source',
+        component: () => import('@/views/page_analyse/order_source'),
+        name: 'Analyse_order_source',
+        meta: { title: 'order_source' }
+      },
+      {
+        path: 'analyse/hot_word',
+        component: () => import('@/views/page_analyse/hot_word'),
+        name: 'Analyse_hot_word',
+        meta: { title: 'Analyse_hot_word' }
       },
     ]
   },
