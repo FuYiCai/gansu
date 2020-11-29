@@ -28,12 +28,17 @@ export default {
 }
 .flex{
   display: flex;
- 
+}
+.inline-flex{
+  display: inline-flex;
 }
 .justify-between{
   justify-content: space-between;
 }
 .align-center{
  align-items: center;
+}
+.main-color{
+  color: #1890ff;
 }
 </style>

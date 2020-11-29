@@ -1,36 +1,9 @@
 <template>
   <div class="wrap" >
-    <a-row type="flex" justify="space-between" style="margin-bottom:10px">
-      <a-col :span="22">
-          页面标题： <a-input placeholder="Basic usage" style="width:15%" /> 
-         营运商：
-           <a-select default-value="lucy" style="width: 120px" @change="handleChange">
-            <a-select-option value="jack">
-                Jack
-            </a-select-option>
-            <a-select-option value="lucy">
-                Lucy
-            </a-select-option>
-            <a-select-option value="disabled" disabled>
-                Disabled
-            </a-select-option>
-            <a-select-option value="Yiminghe">
-                yiminghe
-            </a-select-option>
-            </a-select> 
-       <a-button type="link" size="small"> 本周 </a-button>
-       <a-button type="link" size="small"> 本月 </a-button>
-       <a-button type="link" size="small"> 上月 </a-button>
-       <a-range-picker @change="onChangeRange" style="width:25%" />
-        <a-button style="margin-left:10px" type="primary"> 查询 </a-button>
-    </a-col>
-      <a-col :span="2"> 
-         <a-button @click="exportExcel">导出报表</a-button>
-      </a-col>
-    </a-row>
+    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" />
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
-        <a-table :columns="columns" bordered  id="outTable"
+        <a-table :columns="columns" bordered  
         @change="pageNumberOnChange"
          :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" 
    
@@ -45,33 +18,7 @@
         <div>共 500 条记录 第 {{currentPage}} / 50 页</div>
         <a-pagination show-quick-jumper :default-current="currentPage" :total="500" @change="pageNumberOnChange" />
     </div> -->
-    <a-modal :width="600" v-model="visible" 
-    :footer="null"
-    :closable="false">
-      <div class="flex" style="margin-bottom:20px">
-        <a-radio-group :value="slectDate" @change="handleDayChange">
-          <a-radio-button value="ri">
-            日报
-          </a-radio-button>
-          <a-radio-button value="zhou">
-            周报
-          </a-radio-button>
-          <a-radio-button value="yue">
-            月报
-          </a-radio-button>
-        </a-radio-group>
-          <a-dropdown style="margin-bottom:20px;margin-left:auto">
-            <a-menu slot="overlay" @click="handleMenuClick">
-              <a-menu-item key="1"> <a-icon type="user" />1st menu item </a-menu-item>
-              <a-menu-item key="2"> <a-icon type="user" />2nd menu item </a-menu-item>
-              <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
-            </a-menu>
-            <a-button style="margin-left: 8px"> 选择数据指标 <a-icon type="down" /> </a-button>
-          </a-dropdown>
-      </div>
-
-      <Myecharts ref="myEcharts" />
-    </a-modal>
+    <myModal :visible="visible" />
   </div>
 </template>
 <script>
@@ -106,14 +53,16 @@ for (let i = 0; i < 100; i++) {
   data.push({
     key: i,
     name: `Edrward ${i}`,
-    age: 32,
+    age: i,
     address: `London Park no. ${i}`,
   });
 }
 import Myecharts  from '@/components/My_echarts' ;
-import FileSaver from 'file-saver' ;
-import XLSX from 'xlsx' ;
-import {breadcrumb_mixins} from '@/mixins/index'
+
+
+import {breadcrumb_mixins} from '@/mixins/index' ;
+import mySearch from '@/views/page_analyse/components/search' ;
+import myModal from '@/views/page_analyse/components/modal' ;
 const option = {
     title: {
         text: ''
@@ -181,19 +130,24 @@ const option = {
   const data1 = [];
 export default {
   mixins:[breadcrumb_mixins],
+  provide(){
+    return {
+      me:this
+    }
+  },
   components:{
-      Myecharts
+      Myecharts,
+      mySearch,
+      myModal
   },
   data() {
      return {
-       currentPage:1,
         x:1500,
         y:500,
         data,
         columns,
         loading:false,
         visible: false,
-        slectDate:'ri'
     };
   },
   mounted() {
@@ -204,11 +158,11 @@ export default {
     })
   },
   methods: {
-    handleChange(value) {
-      console.log(`selected ${value}`);
+    searchFn(){
+      console.log(this.$refs.search);
     },
-    onChangeRange(date,dateString) {
-        console.log(date, dateString);
+    getTimesChange(e){
+      console.log(e);
     },
     pageNumberOnChange(pageNumber) {
       console.log('Page: ', pageNumber);
@@ -236,32 +190,6 @@ export default {
       }, 1500);
 
     },
-    handleMenuClick(e) {
-      console.log('click', e);
-    },
-    handleDayChange(e){
-      console.log(e);
-    },
-    exportExcel() {
-      console.log('??');
-      var xlsxParam = { raw: true };//转换成excel时，使用原始的格式
-      var wb = XLSX.utils.table_to_book(document.querySelector("#outTable"),xlsxParam);//outTable为列表id
-      var wbout = XLSX.write(wb, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array"
-      });
-      try {
-        FileSaver.saveAs(
-          new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
-          "pc.xlsx"
-        );
-      } catch (e) {
-        if (typeof console !== "undefined") console.log(e, wbout);
-      }
-      return wbout;
-    }
-
 
   },
 };
