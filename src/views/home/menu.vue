@@ -72,7 +72,7 @@ export default {
     },
     selectMenu({ item, key, selectedKeys }){
       console.log( key, selectedKeys);
-      this.breadcrumb.key = key ;
+      // this.breadcrumb.key = key ;
       this.$router.replace({ name: key })
     }
   },

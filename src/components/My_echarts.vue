@@ -1,5 +1,5 @@
 <template>
-    <div :id="id" :style="{width:width , height: height}"></div>
+    <div :ref="id" :style="{width:width , height: height}"></div>
 </template>
 <script>
 export default {
@@ -18,9 +18,9 @@ export default {
         },
     },
     methods:{
-        drawLine(option){
+        init(option){
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(document.getElementById(this.id))
+            let myChart = this.$echarts.init(this.$refs[this.id])
             // 绘制图表
             myChart.setOption(option);
         }

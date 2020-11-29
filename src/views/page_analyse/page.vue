@@ -25,26 +25,50 @@
         <a-button style="margin-left:10px" type="primary"> 查询 </a-button>
     </a-col>
       <a-col :span="2"> 
-         <a-button>导出报表</a-button>
+         <a-button @click="exportExcel">导出报表</a-button>
       </a-col>
     </a-row>
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
-        <a-table :columns="columns" bordered
-         :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" :pagination="false" 
+        <a-table :columns="columns" bordered  id="outTable"
+         :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" 
    
         >
-        <a slot="action" slot-scope="text">
-            <a-button type="link" @click="showModal" > 趋势分析 </a-button>
+        <a slot="action" slot-scope="obj">
+            <a-button type="link" @click="showModal(obj)" > 趋势分析 </a-button>
             <a-button type="link" > 详情数据 </a-button>
         </a>
      </a-table>
     </div>
-    <div class="flex justify-between align-center" style="margin-top:10px">
-        <div>共 400 条记录 第 1 / 80 页</div>
-        <a-pagination show-quick-jumper :default-current="2" :total="500" @change="pageNumberOnChange" />
-    </div>
-    <a-modal :width="600" v-model="visible" title=" " @ok="handleOk">
+    <!-- <div class="flex justify-between align-center" style="margin-top:10px">
+        <div>共 500 条记录 第 {{currentPage}} / 50 页</div>
+        <a-pagination show-quick-jumper :default-current="currentPage" :total="500" @change="pageNumberOnChange" />
+    </div> -->
+    <a-modal :width="600" v-model="visible" 
+    :footer="null"
+    :closable="false">
+      <div class="flex" style="margin-bottom:20px">
+        <a-radio-group :value="slectDate" @change="handleDayChange">
+          <a-radio-button value="ri">
+            日报
+          </a-radio-button>
+          <a-radio-button value="zhou">
+            周报
+          </a-radio-button>
+          <a-radio-button value="yue">
+            月报
+          </a-radio-button>
+        </a-radio-group>
+          <a-dropdown style="margin-bottom:20px;margin-left:auto">
+            <a-menu slot="overlay" @click="handleMenuClick">
+              <a-menu-item key="1"> <a-icon type="user" />1st menu item </a-menu-item>
+              <a-menu-item key="2"> <a-icon type="user" />2nd menu item </a-menu-item>
+              <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
+            </a-menu>
+            <a-button style="margin-left: 8px"> 选择数据指标 <a-icon type="down" /> </a-button>
+          </a-dropdown>
+      </div>
+
       <Myecharts ref="myEcharts" />
     </a-modal>
   </div>
@@ -86,6 +110,8 @@ for (let i = 0; i < 100; i++) {
   });
 }
 import Myecharts  from '@/components/My_echarts' ;
+ import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 const option = {
     title: {
         text: ''
@@ -93,20 +119,22 @@ const option = {
     tooltip: {
         trigger: 'axis'
     },
-    legend: {
-        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    },
+    // title
+    // legend: {
+    //     data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+    // },
     grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         containLabel: true
     },
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
+    // 保存图片
+    // toolbox: {
+    //     feature: {
+    //         saveAsImage: {}
+    //     }
+    // },
     xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -154,12 +182,14 @@ export default {
  },
   data() {
      return {
+       currentPage:1,
         x:1500,
         y:500,
         data,
         columns,
         loading:false,
         visible: false,
+        slectDate:'ri'
     };
   },
   mounted() {
@@ -167,7 +197,7 @@ export default {
         const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
         this.x = parseInt(width) ;
         this.y = parseInt(height) - 40;
-        this.$refs.myEcharts.drawLine(option)
+
     })
   },
   methods: {
@@ -182,11 +212,41 @@ export default {
     },
     showModal() {
       this.visible = true;
+      this.$message.loading('加载中...');
+      setTimeout(()=>{
+        this.$nextTick(()=>{
+          this.$refs.myEcharts.init(option)
+        })
+      }, 1500);
+
     },
-    handleOk(e) {
+    handleMenuClick(e) {
+      console.log('click', e);
+    },
+    handleDayChange(e){
       console.log(e);
-      this.visible = false;
     },
+    exportExcel() {
+      console.log('??');
+      var xlsxParam = { raw: true };//转换成excel时，使用原始的格式
+      var wb = XLSX.utils.table_to_book(document.querySelector("#outTable"),xlsxParam);//outTable为列表id
+      var wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array"
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
+          "pc.xlsx"
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.log(e, wbout);
+      }
+      return wbout;
+    }
+
+
   },
 };
 </script>
