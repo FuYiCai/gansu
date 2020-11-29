@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/home/Home.vue'
+import Home from '@/views/home/Home.vue'
+import Not_find from '@/views/not_find/index.vue'
 import Analyse_page from '@/views/page_analyse/page'
-import Not_find from '../views/not_find/index.vue'
+import Analyse_channer from '@/views/tv/channer'
+import Analyse_sowing from '@/views/tv/sowing'
 
 
 Vue.use(VueRouter)
@@ -41,6 +43,19 @@ const routes = [
         path: 'analyse/hot_word',
         component: () => import('@/views/page_analyse/hot_word'),
         name: 'Analyse_hot_word',
+        meta: { title: '搜索热词' }
+      },
+      // 
+      {
+        path: 'analyse/channer',
+        component: Analyse_channer,
+        name: 'Analyse_channer',
+        meta: { title: '搜索热词' }
+      },
+      {
+        path: 'analyse/sowing',
+        component: Analyse_sowing ,
+        name: 'Analyse_sowing',
         meta: { title: '搜索热词' }
       },
     ]

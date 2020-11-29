@@ -6,7 +6,7 @@ const menuData = [
     arr:[{key:'Analyse_page',value:'页面分析'},{key:'Analyse_recommen',value:'推荐位分析'},{key:'Analyse_hot_word',value:'搜索热词'}]
 },
     {key:'收视分析',title:'收视分析',icon:'radar-chart',
-    arr:[{key:'Analyse_page3',value:'频道直播分析'},{key:'Analyse_recommen3',value:'点播节目分析'},{key:'Analyse_hot_word',value:'搜索热词'}]
+    arr:[{key:'Analyse_channer',value:'频道直播分析'},{key:'Analyse_sowing',value:'点播节目分析'}]
 },
     {key:'周报月报',title:'周报月报',icon:'radar-chart',
         arr:[{key:'Analyse_page2',value:'供应商分账报表'},{key:'Analyse_recommen4',value:'触发订购报表',
