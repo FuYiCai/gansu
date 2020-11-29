@@ -1,6 +1,6 @@
 <template>
     <a-row type="flex" justify="space-between" style="margin-bottom:10px">
-      <a-col :span="22">
+      <a-col  :span="22">
           {{inputText}} <a-input placeholder="请输入关键字" v-model="inputValue" style="width:15%" /> 
         <slot />
         <template v-if="timesArrVisibel">
@@ -30,6 +30,10 @@ export default {
             default:'页面标题：'
         },
         timesArrVisibel:{
+            type:Boolean,
+            default:true
+        },
+        rangePickerVisibel:{
             type:Boolean,
             default:true
         },

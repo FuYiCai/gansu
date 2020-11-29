@@ -9,6 +9,9 @@ import Analyse_sowing from '@/views/tv/sowing'
 import Report_form_supplier_routing from '@/views/weekly_monthly/supplier_routing_report_forms'
 import Report_form_trigger_order_forms from '@/views/weekly_monthly/trigger_order_forms'
 import Detail_supplier_trigger from '@/views/weekly_monthly/detail_supplier_trigger'
+import Page_visit_daily from '@/views/weekly_monthly/page_visit_form/daily'
+import Page_visit_weekly from '@/views/weekly_monthly/page_visit_form/weekly'
+import Page_visit_monthly from '@/views/weekly_monthly/page_visit_form/monthly'
 
 
 Vue.use(VueRouter)
@@ -84,6 +87,24 @@ const routes = [
         component: Detail_supplier_trigger ,
         name: 'Detail_supplier_trigger',
         meta: { title: '详情' }
+      },
+      {
+        path: 'page_visit_weekly',
+        component: Page_visit_weekly ,
+        name: 'Page_visit_weekly',
+        meta: { title: '页面访问周报' }
+      },
+      {
+        path: 'page_visit_daily',
+        component: Page_visit_daily ,
+        name: 'Page_visit_daily',
+        meta: { title: '页面访问日报' }
+      },
+      {
+        path: 'page_visit_monthly',
+        component: Page_visit_monthly ,
+        name: 'Page_visit_monthly',
+        meta: { title: '页面访问月报' }
       },
       
     ]

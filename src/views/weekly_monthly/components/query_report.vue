@@ -1,12 +1,15 @@
 <template>
    <div>
-      <a-row type="flex"  style="margin-bottom:10px">
-      <a-col :span="6">
-          年月 <a-month-picker placeholder="请选择年月" @change="onChangeMonth" />
+      <a-row type="flex" justify="space-between" style="margin-bottom:10px">
+        <a-col  :span="6">
+            年月 <a-month-picker placeholder="请选择年月" @change="onChangeMonth" />
 
-        <a-button @click="query" style="margin-left:10px" type="primary"> 查询 </a-button>
-      </a-col>
-    </a-row>
+          <a-button @click="query" style="margin-left:10px" type="primary"> 查询 </a-button>
+        </a-col>
+        <a-col :span="3">
+         <slot name="right" />
+        </a-col>
+     </a-row>
     <div class="flex">
       <a-table :columns="columns" :data-source="data" style="width:35%" >
         <a slot="name" slot-scope="text">{{ text }}222</a>
@@ -56,10 +59,17 @@ const data = [
 ];
 
 export default {
+  props:{
+    propsData:{
+      type:Object,
+      default:() =>{}
+    }
+  },
   data() {
     return {
       data,
       columns,
+
     }
   },
   methods: {

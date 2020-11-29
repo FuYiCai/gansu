@@ -1,6 +1,8 @@
 <template>
   <div class="wrap" >
-    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" :timesArrVisibel="false" :rangePickerVisibel="false" />
+    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" 
+    :propsData="propsData"
+    :timesArrVisibel="false" :rangePickerVisibel="false" />
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
         <a-table :columns="columns" bordered  
@@ -136,7 +138,7 @@ export default {
         data,
         columns,
         loading:false,
-
+        propsData:{}
     };
   },
   mounted() {
@@ -145,6 +147,7 @@ export default {
         this.x = parseInt(width) ;
         this.y = parseInt(height) - 40;
     })
+    this.propsData = this.$route.params.propsData ;
   },
   methods: {
     searchFn(){
