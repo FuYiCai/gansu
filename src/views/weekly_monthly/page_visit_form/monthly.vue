@@ -1,5 +1,5 @@
 <template>
-  <queryReport >
+  <queryReport :router="{name: 'Page_visit_detail'}" >
       <template  v-slot:right>
           <div class="flex">
               <a-button>趋势</a-button>

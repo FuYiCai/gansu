@@ -60,7 +60,7 @@ const data = [
 
 export default {
   props:{
-    propsData:{
+    router:{
       type:Object,
       default:() =>{}
     }
@@ -80,7 +80,8 @@ export default {
 
     },
     lookDetail(){
-        this.$router.push({name:'Detail_supplier_trigger'})
+        const obj = this.router.name ? this.router : {name:'Detail_supplier_trigger'} ;
+        this.$router.push(obj)
     },
     exportExcel() {
       var xlsxParam = { raw: true };//转换成excel时，使用原始的格式

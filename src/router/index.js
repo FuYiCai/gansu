@@ -12,6 +12,7 @@ import Detail_supplier_trigger from '@/views/weekly_monthly/detail_supplier_trig
 import Page_visit_daily from '@/views/weekly_monthly/page_visit_form/daily'
 import Page_visit_weekly from '@/views/weekly_monthly/page_visit_form/weekly'
 import Page_visit_monthly from '@/views/weekly_monthly/page_visit_form/monthly'
+import Page_visit_detail from '@/views/weekly_monthly/page_visit_form/detail'
 
 
 Vue.use(VueRouter)
@@ -106,7 +107,12 @@ const routes = [
         name: 'Page_visit_monthly',
         meta: { title: '页面访问月报' }
       },
-      
+      {
+        path: 'page_visit_detail',
+        component: Page_visit_detail ,
+        name: 'Page_visit_detail',
+        meta: { title: '页面访问详情' }
+      },
     ]
   },
   {
