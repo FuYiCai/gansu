@@ -23,13 +23,13 @@ const routes = [
         path: 'analyse/page',
         component: Analyse_page,
         name: 'Analyse_page',
-        meta: { title: 'Analyse_page' }
+        meta: { title: '页面分析' }
       },
       {
         path: 'analyse/recommen',
         component: () => import('@/views/page_analyse/recommen'),
         name: 'Analyse_recommen',
-        meta: { title: 'Analyse_recommen' }
+        meta: { title: '推荐位分析' }
       },
       {
         path: 'analyse/order_source',
@@ -41,7 +41,7 @@ const routes = [
         path: 'analyse/hot_word',
         component: () => import('@/views/page_analyse/hot_word'),
         name: 'Analyse_hot_word',
-        meta: { title: 'Analyse_hot_word' }
+        meta: { title: '搜索热词' }
       },
     ]
   },

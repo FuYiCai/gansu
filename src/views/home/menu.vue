@@ -32,36 +32,24 @@
 <script>
 import { menuData ,rootSubmenuKeys,openKeys} from '@/constant/const.js' ;
 export default {
-  inject:['watchBreadcrumb'],
+  inject:['me'],
   data() {
     return {
       rootSubmenuKeys:rootSubmenuKeys,
       openKeys:openKeys,
       menuData:menuData,
-      breadcrumb:{
-        openKeys:'',
-        key:''
-      }
     };
   },
-  // watch:{
-  //   openKeys:{
-  //     immediate:true,
-  //     handler:function(v){
-  //       this.breadcrumb.openKeys = v[0] ;
-  //       this.watchBreadcrumb(this.breadcrumb)
-  //     }
-  //   },
-  //   'breadcrumb.key':{
-  //     immediate:true,
-  //     handler:function(v){
-  //       this.watchBreadcrumb(this.breadcrumb)
-  //     }
-  //   },
-  // },
+  watch:{
+    openKeys:{
+      immediate:true,
+      handler:function(v){
+        this.me.breadcrumbData = v
+      }
+    },
+  },
   methods: {
     onOpenChange(openKeys) {
-      console.log('openKeys',openKeys);
       const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys;
@@ -71,8 +59,6 @@ export default {
       
     },
     selectMenu({ item, key, selectedKeys }){
-      console.log( key, selectedKeys);
-      // this.breadcrumb.key = key ;
       this.$router.replace({ name: key })
     }
   },

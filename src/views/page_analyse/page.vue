@@ -31,6 +31,7 @@
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
         <a-table :columns="columns" bordered  id="outTable"
+        @change="pageNumberOnChange"
          :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" 
    
         >
@@ -110,8 +111,9 @@ for (let i = 0; i < 100; i++) {
   });
 }
 import Myecharts  from '@/components/My_echarts' ;
- import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
+import FileSaver from 'file-saver' ;
+import XLSX from 'xlsx' ;
+import {breadcrumb_mixins} from '@/mixins/index'
 const option = {
     title: {
         text: ''
@@ -176,10 +178,12 @@ const option = {
         }
     ]
 };
+  const data1 = [];
 export default {
- components:{
-     Myecharts
- },
+  mixins:[breadcrumb_mixins],
+  components:{
+      Myecharts
+  },
   data() {
      return {
        currentPage:1,
@@ -197,7 +201,6 @@ export default {
         const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
         this.x = parseInt(width) ;
         this.y = parseInt(height) - 40;
-
     })
   },
   methods: {
@@ -209,6 +212,19 @@ export default {
     },
     pageNumberOnChange(pageNumber) {
       console.log('Page: ', pageNumber);
+      const {current, pageSize} = pageNumber ;
+      if(data1.length !== 0)return ;
+      // HTTP ... this.loading = true ;
+      for (let i = 101; i < 200; i++) {
+        data1.push({
+          key: i,
+          name: `101 ${i}`,
+          age: i,
+          address: `London Park no. ${i}`,
+        });
+      }
+      // this.loading = false ;
+      this.data =  this.data.concat(data1) ;
     },
     showModal() {
       this.visible = true;

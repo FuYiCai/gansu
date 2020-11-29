@@ -46,7 +46,7 @@ export default {
   },
   provide () {
     return {
-      watchBreadcrumb: this.watchBreadcrumb
+      me: this
     }
   },
   data() {
@@ -62,17 +62,6 @@ export default {
       this.visible = false;
       localStorage.clear() ;
       window.location.reload()
-    },
-    watchBreadcrumb({openKeys,key}){
-      console.log('father',openKeys,key);
-      const arr = [openKeys] ;
-      const index = rootSubmenuKeys.indexOf(openKeys) ;
-      menuData[index].arr.forEach(item =>{
-        if(item.key === key){
-           arr.push(item.value) ;
-           this.breadcrumbData = arr ;
-        }
-      })
     }
   },
 };
