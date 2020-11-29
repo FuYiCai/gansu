@@ -6,8 +6,18 @@ import Analyse_page from '@/views/page_analyse/page'
 import Analyse_channer from '@/views/tv/channer'
 import Analyse_sowing from '@/views/tv/sowing'
 
+import Report_form_supplier_routing from '@/views/weekly_monthly/supplier_routing_report_forms'
+import Report_form_trigger_order_forms from '@/views/weekly_monthly/trigger_order_forms'
+import Detail_supplier_trigger from '@/views/weekly_monthly/detail_supplier_trigger'
+
 
 Vue.use(VueRouter)
+
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
 
@@ -45,7 +55,6 @@ const routes = [
         name: 'Analyse_hot_word',
         meta: { title: '搜索热词' }
       },
-      // 
       {
         path: 'analyse/channer',
         component: Analyse_channer,
@@ -58,6 +67,25 @@ const routes = [
         name: 'Analyse_sowing',
         meta: { title: '搜索热词' }
       },
+      {
+        path: 'report_form/supplier_routing_report_forms',
+        component: Report_form_supplier_routing,
+        name: 'Report_form_supplier_routing',
+        meta: { title: '供应商分账报表' }
+      },
+      {
+        path: 'report_form/trigger_order_forms',
+        component: Report_form_trigger_order_forms ,
+        name: 'Report_form_trigger_order_forms',
+        meta: { title: '触发订购报表' }
+      },
+      {
+        path: 'detail_supplier_trigger',
+        component: Detail_supplier_trigger ,
+        name: 'Detail_supplier_trigger',
+        meta: { title: '详情' }
+      },
+      
     ]
   },
   {
