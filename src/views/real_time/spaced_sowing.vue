@@ -2,7 +2,7 @@
   <div class="wrap" >
     <!-- table -->
     <div class="flex align-center">
-        今日实时频道数据总
+        今日实时节目数据总计
         <a-button style="margin-left:auto" @click="showModal" type="primary">分析趋势</a-button>
     </div>
     <div style="flex:1;margin-top:10px;" ref="table_wrap">

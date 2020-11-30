@@ -18,7 +18,9 @@
         <div>共 500 条记录 第 {{currentPage}} / 50 页</div>
         <a-pagination show-quick-jumper :default-current="currentPage" :total="500" @change="pageNumberOnChange" />
     </div> -->
-    <myModal :visible="visible" />
+     <myModal :visible="visible" >
+        <Myecharts  ref="myEcharts" />
+    </myModal>
   </div>
 </template>
 <script>

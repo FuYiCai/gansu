@@ -18,7 +18,9 @@
         <div>共 500 条记录 第 {{currentPage}} / 50 页</div>
         <a-pagination show-quick-jumper :default-current="currentPage" :total="500" @change="pageNumberOnChange" />
     </div> -->
-    <myModal :visible="visible" />
+    <myModal :visible="visible" >
+        <Myecharts  ref="myEcharts" />
+    </myModal>
   </div>
 </template>
 <script>
@@ -57,8 +59,8 @@ for (let i = 0; i < 100; i++) {
     address: `London Park no. ${i}`,
   });
 }
-import Myecharts  from '@/components/My_echarts' ;
 
+import Myecharts  from '@/components/My_echarts' ;
 
 import {breadcrumb_mixins} from '@/mixins/index' ;
 import mySearch from '@/views/page_analyse/components/search' ;

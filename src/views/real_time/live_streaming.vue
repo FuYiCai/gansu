@@ -2,7 +2,7 @@
   <div class="wrap" >
     <!-- table -->
     <div class="flex align-center">
-        今日实时频道数据总
+        今日实时频道数据总计
         <a-button style="margin-left:auto" @click="showModal" type="primary">分析趋势</a-button>
     </div>
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
@@ -88,12 +88,7 @@ const option = {
         bottom: '3%',
         containLabel: true
     },
-    // 保存图片
-    // toolbox: {
-    //     feature: {
-    //         saveAsImage: {}
-    //     }
-    // },
+
     xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -144,7 +139,7 @@ const option = {
     height: 20,
     start: 20,
     end: 80
-}
+  }
 };
   const data1 = [];
 export default {

@@ -23,7 +23,7 @@
             <a-button style="margin-left: 8px"> 选择数据指标 <a-icon type="down" /> </a-button>
         </a-dropdown>
     </div>
-
+      <slot/>
     </a-modal>
 </template>
 <script>

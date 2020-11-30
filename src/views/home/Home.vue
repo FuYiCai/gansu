@@ -25,7 +25,7 @@
       <a-layout-content
         :style="{
           margin: '15px 16px 10px',
-          padding: '24px',
+          padding: contentPadding,
           background: '#fff',
           minHeight: '280px',
         }"
@@ -51,7 +51,8 @@ export default {
     return {
       collapsed: false,
       visible: false,
-      breadcrumbData:[]
+      breadcrumbData:[],
+      contentPadding:'24px'
     };
   },
 

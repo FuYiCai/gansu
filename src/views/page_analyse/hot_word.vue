@@ -15,7 +15,10 @@
      </a-table>
     </div>
 
-    <myModal :visible="visible" />
+    <myModal :visible="visible" >
+        <Myecharts  ref="myEcharts" />
+    </myModal>
+    
   </div>
 </template>
 <script>

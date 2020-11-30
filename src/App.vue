@@ -20,6 +20,7 @@ export default {
 }
 </script>
 <style lang="scss">
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,10 +36,16 @@ export default {
 .justify-between{
   justify-content: space-between;
 }
+.flex-column{
+  flex-direction: column;
+}
 .align-center{
  align-items: center;
 }
 .main-color{
   color: #1890ff;
+}
+.main-bg{
+  color: #f0f2f5;
 }
 </style>
