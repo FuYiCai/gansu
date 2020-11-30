@@ -1,8 +1,10 @@
 <template>
     <a-row type="flex" justify="space-between" style="margin-bottom:10px">
-      <a-col  :span="22">
-          {{inputText}} <a-input placeholder="请输入关键字" v-model="inputValue" style="width:15%" /> 
-        <slot />
+      <a-col  :span="16">
+          <template v-if="inputVisibel">
+            {{inputText}} <a-input placeholder="请输入关键字" v-model="inputValue" style="width:15%" /> 
+          </template>
+         <slot />
         <template v-if="timesArrVisibel">
           <a-button type="link" size="small" @click="getTimes('day')"> 今日 </a-button>
           <a-button type="link" size="small" @click="getTimes('zhou')"> 本周 </a-button>
@@ -12,8 +14,8 @@
         <a-range-picker v-if="rangePickerVisibel" @change="onChangePickerRange" style="width:25%" />
         <a-button @click="query" style="margin-left:10px" type="primary"> 查询 </a-button>
       </a-col>
-      <a-col :span="2"> 
-         <DownloadXlsx />
+      <a-col :span="3"> 
+         <slot name="right" > <DownloadXlsx /> </slot>
       </a-col>
     </a-row>
 </template>
@@ -37,7 +39,7 @@ export default {
             type:Boolean,
             default:true
         },
-        rangePickerVisibel:{
+        inputVisibel:{
             type:Boolean,
             default:true
         },

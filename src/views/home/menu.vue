@@ -59,7 +59,6 @@ export default {
       
     },
     selectMenu({ item, key, selectedKeys }){
-      console.log('router',key);
       this.$router.replace({ name: key })
     }
   },

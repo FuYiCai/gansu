@@ -14,6 +14,10 @@ import Page_visit_weekly from '@/views/weekly_monthly/page_visit_form/weekly'
 import Page_visit_monthly from '@/views/weekly_monthly/page_visit_form/monthly'
 import Page_visit_detail from '@/views/weekly_monthly/page_visit_form/detail'
 
+import Recommend_daily from '@/views/weekly_monthly/recommend_form/daily'
+import Recommend_weekly from '@/views/weekly_monthly/recommend_form/weekly'
+import Recommend_monthly from '@/views/weekly_monthly/recommend_form/monthly'
+import Recommend_detail from '@/views/weekly_monthly/recommend_form/detail'
 
 Vue.use(VueRouter)
 
@@ -63,13 +67,13 @@ const routes = [
         path: 'analyse/channer',
         component: Analyse_channer,
         name: 'Analyse_channer',
-        meta: { title: '搜索热词' }
+        meta: { title: '频道直播分析' }
       },
       {
         path: 'analyse/sowing',
         component: Analyse_sowing ,
         name: 'Analyse_sowing',
-        meta: { title: '搜索热词' }
+        meta: { title: '点播节目分析' }
       },
       {
         path: 'report_form/supplier_routing_report_forms',
@@ -111,6 +115,30 @@ const routes = [
         path: 'page_visit_detail',
         component: Page_visit_detail ,
         name: 'Page_visit_detail',
+        meta: { title: '页面访问详情' }
+      },
+      {
+        path: 'recommend_weekly',
+        component: Recommend_weekly ,
+        name: 'Recommend_weekly',
+        meta: { title: '页面访问周报' }
+      },
+      {
+        path: 'recommend_daily',
+        component: Recommend_daily ,
+        name: 'Recommend_daily',
+        meta: { title: '页面访问日报' }
+      },
+      {
+        path: 'recommend_monthly',
+        component: Recommend_monthly ,
+        name: 'Recommend_monthly',
+        meta: { title: '页面访问月报' }
+      },
+      {
+        path: 'recommend_detail',
+        component: Recommend_detail ,
+        name: 'Recommend_detail',
         meta: { title: '页面访问详情' }
       },
     ]
