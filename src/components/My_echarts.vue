@@ -10,7 +10,7 @@ export default {
         },
         width:{
             type:String,
-            default:'300px'
+            default:'100%'
         },
         height:{
             type:String,

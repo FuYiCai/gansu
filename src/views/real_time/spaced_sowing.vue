@@ -1,21 +1,32 @@
 <template>
   <div class="wrap" >
-    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" />
     <!-- table -->
+    <div class="flex align-center">
+        今日实时频道数据总
+        <a-button style="margin-left:auto" @click="showModal" type="primary">分析趋势</a-button>
+    </div>
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
         <a-table :columns="columns" bordered  
         @change="pageNumberOnChange"
          :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" 
    
         >
-        <a slot="action" slot-scope="obj">
+        <!-- <a slot="action" slot-scope="obj">
             <a-button type="link" @click="showModal(obj)" > 趋势分析 </a-button>
             <a-button type="link" > 详情数据 </a-button>
-        </a>
+        </a> -->
      </a-table>
     </div>
 
-    <myModal :visible="visible" />
+    <a-modal :width="700" v-model="visible" 
+    :footer="null"
+    :closable="false">
+
+        <Myecharts ref="myEcharts" />
+    </a-modal>
+
+
+
   </div>
 </template>
 <script>
@@ -34,15 +45,15 @@ const columns = [
   { title: 'Column 5', dataIndex: 'address', key: '5', width: 150 },
   { title: 'Column 6', dataIndex: 'address', key: '6', width: 150 },
   { title: 'Column 7', dataIndex: 'address', key: '7', width: 150 },
-  { title: 'Column 8', dataIndex: 'address', key: '8',},
-  {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    align:'center',
-    width: 200,
-    scopedSlots: { customRender: 'action' },
-  },
+//   { title: 'Column 8', dataIndex: 'address', key: '8',},  //没有width 默认站位剩下全部
+//   {
+//     title: 'Action',
+//     key: 'operation',
+//     fixed: 'right',
+//     align:'center',
+//     width: 200,
+//     scopedSlots: { customRender: 'action' },
+//   },
 ];
 
 const data = [];
@@ -58,8 +69,6 @@ import Myecharts  from '@/components/My_echarts' ;
 
 
 import {breadcrumb_mixins} from '@/mixins/index' ;
-import mySearch from '@/views/page_analyse/components/search' ;
-import myModal from '@/views/page_analyse/components/modal' ;
 const option = {
     title: {
         text: ''
@@ -67,10 +76,12 @@ const option = {
     tooltip: {
         trigger: 'axis'
     },
-    // title
-    // legend: {
-    //     data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    // },
+
+    legend: {
+        x: 'left',
+        y: 'top',
+        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+    },
     grid: {
         left: '3%',
         right: '4%',
@@ -110,19 +121,30 @@ const option = {
             stack: '总量',
             data: [150, 232, 201, 154, 190, 330, 410]
         },
+      
+        {
+            name: '视频广告',
+            type: 'line',
+            stack: '总量',
+            data: [150, 232, 201, 154, 190, 330, 410]
+        },
         {
             name: '直接访问',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
         }
-    ]
+
+        
+    ],
+    dataZoom: {
+    show: true,
+    realtime: true,
+    y: 36,
+    height: 20,
+    start: 20,
+    end: 80
+}
 };
   const data1 = [];
 export default {
@@ -134,8 +156,6 @@ export default {
   },
   components:{
       Myecharts,
-      mySearch,
-      myModal
   },
   data() {
      return {
@@ -155,12 +175,7 @@ export default {
     })
   },
   methods: {
-    searchFn(){
-      console.log(this.$refs.search);
-    },
-    getTimesChange(e){
-      console.log(e);
-    },
+
     pageNumberOnChange(pageNumber) {
       console.log('Page: ', pageNumber);
       const {current, pageSize} = pageNumber ;

@@ -24,7 +24,6 @@
         </a-dropdown>
     </div>
 
-    <Myecharts ref="myEcharts" />
     </a-modal>
 </template>
 <script>

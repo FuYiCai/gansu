@@ -19,8 +19,12 @@ import Recommend_weekly from '@/views/weekly_monthly/recommend_form/weekly'
 import Recommend_monthly from '@/views/weekly_monthly/recommend_form/monthly'
 import Recommend_detail from '@/views/weekly_monthly/recommend_form/detail'
 
-Vue.use(VueRouter)
+import Real_time_overview from '@/views/real_time/overview'
+import Real_time_live_streaming from '@/views/real_time/live_streaming'
+import Real_time_spaced_sowing from '@/views/real_time/spaced_sowing'
 
+
+Vue.use(VueRouter) ;
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -39,6 +43,24 @@ const routes = [
     name: 'Home',
     component: Home,
     children: [
+      {
+        path: 'real_time_overview',
+        component: Real_time_overview,
+        name: 'Real_time_overview',
+        meta: { title: '总览' }
+      },
+      {
+        path: 'real_time_live_streaming',
+        component: Real_time_live_streaming,
+        name: 'Real_time_live_streaming',
+        meta: { title: '直播收视' }
+      },
+      {
+        path: 'real_time_spaced_sowing',
+        component: Real_time_spaced_sowing,
+        name: 'Real_time_spaced_sowing',
+        meta: { title: '点播收视' }
+      },
       {
         path: 'analyse/page',
         component: Analyse_page,

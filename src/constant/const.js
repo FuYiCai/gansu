@@ -1,6 +1,6 @@
 const menuData = [
     {key:'实时监控',title:'实时监控',icon:'bulb',
-    arr:[{key:'Analyse_page5',value:'总览'},{key:'Analyse_recommen13',value:'直播收视'},{key:'Analyse_order_source',value:'点播收视'}]
+    arr:[{key:'Real_time_overview',value:'总览'},{key:'Real_time_live_streaming',value:'直播收视'},{key:'Real_time_spaced_sowing',value:'点播收视'}]
 },
     {key:'行为分析',title:'行为分析',icon:'fund',
     arr:[{key:'Analyse_page',value:'页面分析'},{key:'Analyse_recommen',value:'推荐位分析'},{key:'Analyse_hot_word',value:'搜索热词'}]
