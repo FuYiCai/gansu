@@ -10,7 +10,7 @@
         >
         <a slot="action" slot-scope="obj">
             <a-button type="link" @click="showModal(obj)" > 趋势分析 </a-button>
-            <a-button type="link" > 详情数据 </a-button>
+            <a-button type="link" @click="lookdetail"> 详情数据 </a-button>
         </a>
      </a-table>
     </div>
@@ -160,6 +160,9 @@ export default {
     })
   },
   methods: {
+    lookdetail(){
+      this.$router.push({name: 'Page_visit_detail'})
+    },      
     searchFn(){
       console.log(this.$refs.search);
     },

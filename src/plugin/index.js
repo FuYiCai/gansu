@@ -24,7 +24,6 @@ Vue.use(DatePicker);
 
 
 
-console.log('sdfgsad',Modal);
 Vue.prototype.$message = message;
 Vue.prototype.$confirm = Modal.confirm;
 Vue.prototype.$destroyAll = Modal.destroyAll;

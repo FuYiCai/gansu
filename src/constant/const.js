@@ -8,7 +8,7 @@ const menuData = [
     {key:'收视分析',title:'收视分析',icon:'radar-chart',
     arr:[{key:'Analyse_channer',value:'频道直播分析'},{key:'Analyse_sowing',value:'点播节目分析'}]
 },
-    {key:'周报月报',title:'周报月报',icon:'radar-chart',
+    {key:'周报月报',title:'周报月报',icon:'aliwangwang',
         arr:[{key:'Report_form_supplier_routing',value:'供应商分账报表'},{key:'Report_form_trigger_order_forms',value:'触发订购报表',
         arr: [
             {key:'页面访问报表',title:'页面访问报表',icon:'radar-chart',arr:[{key:'Page_visit_daily',value:'页面访问日报'},{key:'Page_visit_weekly',value:'页面访问周报'},{key:'Page_visit_monthly',value:'页面访问月报'}] },

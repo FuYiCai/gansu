@@ -15,7 +15,10 @@
       </a-dropdown>
     </div>
 
-    <a-menu mode="inline" :open-keys="openKeys" style="width: 100%" theme="dark" 
+    <a-menu mode="inline" style="width: 100%" theme="dark" 
+    
+    :selected-keys="selectedKeys"
+
     @select="selectMenu"
     @openChange="onOpenChange">
       <template v-for="item in menuData">
@@ -54,6 +57,7 @@ export default {
       menuData,
       masterMap,
       masterKey: window.sessionStorage.masterKey ||  0,
+      selectedKeys:['Real_time_overview']
     };
   },
   watch:{
@@ -63,6 +67,12 @@ export default {
         this.me.breadcrumbData = v
       }
     },
+    '$route':{
+      immediate:true,
+      handler:function(e) {
+        this.selectedKeys = [e.name]
+      }
+    }
   },
   methods: {
     onOpenChange(openKeys) {
