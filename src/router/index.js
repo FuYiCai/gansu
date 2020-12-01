@@ -42,6 +42,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    redirect: { name: 'Real_time_overview' },
     children: [
       {
         path: 'real_time_overview',

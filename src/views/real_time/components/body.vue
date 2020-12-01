@@ -19,7 +19,7 @@
                     <p>下游页面名称</p>
                     <p>点击量</p>
                 </div>
-                <vueSeamlessScroll :data="listData" :class-option="optionHover" class="seamless-warp">
+                <vueSeamlessScroll :data="listData" :class-option="optionHover" class="seamless-warp" >
                     <ul class="item">
                         <li v-for="(item,index) in listData" :key="index" class="itemli">
                             <span  v-text="index"></span>
@@ -362,13 +362,15 @@ export default {
 <style lang="scss" scoped>
 $main-color:#1890ff;
 $grey:#999;
-
 .frame-wrap{
     width: 50%;
-    height: 350px;
+    height: 400px;
     text-align: center;
     line-height: 350px;
     border: 1px solid #999;
+    background-image: url("../../../assets/images/hot.png");
+    background-repeat: no-repeat;   
+    background-size: 100% 100%;   
 }
 h3{
     color: $main-color ;

@@ -2,9 +2,9 @@
     <div>
         <header class="flex justify-between">
             <div class="flex align-center">
-                <div class="start-up">
-                    <span class="title">今日开机数</span>
-                    <span>665432 <sub>台</sub></span>
+                <div class="start-up zwyHot" style="--color:rgba(255, 25, 25, 0.6);">
+                    <span  style="--count:infinite;"  class="title zwyHover1">今日开机数</span>
+                    <span class="zwyHover1" style="font-size:20px;--count:infinite;">665432 <sub>台</sub></span>
                 </div>
                 <Myecharts width="200px" height="200px"  id="headRin" ref="headRin" />
             </div>
@@ -181,6 +181,72 @@ $grey:#999;
 }
 .title{
     color: $grey;
+}
+
+.zwyHot {
+	position: relative;
+	--color: rgba(0, 0, 0, 0.15);
+}
+
+.zwyHot::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 50%;
+	animation: shockwave 3s 0.5s ease-out infinite;
+}
+
+.zwyHot::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-radius: 50%;
+	animation: shockwave 3s 0.65s ease-out infinite;
+}
+@keyframes shockwave {
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		box-shadow: 0 0 2px var(--color), inset 0 0 1px var(--color);
+		opacity: 1;
+	}
+
+	95% {
+		box-shadow: 0 0 50px var(--color), inset 0 0 30px var(--color);
+		opacity: 0;
+	}
+
+	100% {
+		-webkit-transform: scale(2.25);
+		transform: scale(2.25);
+		opacity: 0;
+	}
+}
+
+
+@keyframes zwyHover1 {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.zwyHover1 {
+	--count: infinite;
+	animation: zwyHover1 .6s var(--count) !important;
 }
 
 </style>
