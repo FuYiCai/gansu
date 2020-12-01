@@ -356,7 +356,12 @@ export default {
                  }
             ]
         }
-    }
+    },
+    methods: {
+        handleMenuClick(e){
+            console.log(e);
+        }
+    },
 }
 </script>
 <style lang="scss" scoped>

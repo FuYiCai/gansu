@@ -1,6 +1,24 @@
 <template>
   <div>
-    <div class="logo">{{openKeys[0]}}</div>
+    <div class="logo">
+        <a-dropdown >
+          <p class="ant-dropdown-link" >
+            {{master}} <a-icon type="down" />
+          </p>
+          <a-menu slot="overlay" @click="dropdown">
+          <a-menu-item key="yidong">
+            <span>移 动</span>  
+          </a-menu-item>
+          <a-menu-item key="liantong">
+            <span>联 通</span>  
+          </a-menu-item>
+          <a-menu-item key="dianxing">
+            <span>电 信</span>  
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </div>
+
     <a-menu mode="inline" :open-keys="openKeys" style="width: 100%" theme="dark" 
     @select="selectMenu"
     @openChange="onOpenChange">
@@ -38,6 +56,7 @@ export default {
       rootSubmenuKeys:rootSubmenuKeys,
       openKeys:openKeys,
       menuData:menuData,
+      master:'移 动'
     };
   },
   watch:{
@@ -60,17 +79,25 @@ export default {
     },
     selectMenu({ item, key, selectedKeys }){
       this.$router.replace({ name: key })
-    }
+    },
+    dropdown({key}){
+      const map = {
+        yidong:'移 动',
+        liantong:'联 通' ,
+        dianxing:'电 信'
+      };
+      this.master = map[key] ;
+    },
   },
 };
 </script>
 <style scoped>
 .logo{
   height: 32px;
+  line-height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
   color: #fff;
-  line-height: 32px;
   text-align: center;
 }
 </style>
