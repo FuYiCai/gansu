@@ -33,18 +33,8 @@ const breadcrumb_mixins = {
     },
 }
 
-const watchMaster = {
-    computed:{
-        ...mapState(['master'])
-    },
-    // watch: {
-    //     master:{
-          
-    //     }
-    // },
-}
+
 
 export {
-    breadcrumb_mixins,
-    watchMaster
+    breadcrumb_mixins
 }

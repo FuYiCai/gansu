@@ -28,10 +28,10 @@
 </template>
 <script>
 export default {
-    props:{
-        visible:{
-            type:Boolean,
-            default:false
+
+    data() {
+        return {
+          visible: false,
         }
     },
     methods: {
@@ -41,6 +41,10 @@ export default {
         handleMenuClick(e) {
         console.log('click', e);
         },
+        showModal() {
+            this.visible = true;
+        },
+
     },
 }
 </script>

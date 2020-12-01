@@ -15,7 +15,7 @@
      </a-table>
     </div>
 
-    <myModal :visible="visible" >
+    <myModal ref="showModal" >
         <Myecharts  ref="myEcharts" />
     </myModal>
     
@@ -181,7 +181,7 @@ export default {
       this.data =  this.data.concat(data1) ;
     },
     showModal() {
-      this.visible = true;
+      this.$refs.showModal.showModal();
       this.$message.loading('加载中....', 0);
       setTimeout(()=>{
         this.$nextTick(()=>{

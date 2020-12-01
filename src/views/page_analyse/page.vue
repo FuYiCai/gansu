@@ -18,7 +18,7 @@
         <div>共 500 条记录 第 {{currentPage}} / 50 页</div>
         <a-pagination show-quick-jumper :default-current="currentPage" :total="500" @change="pageNumberOnChange" />
     </div> -->
-    <myModal :visible="visible" >
+    <myModal ref="showModal" >
         <Myecharts  ref="myEcharts" />
     </myModal>
   </div>
@@ -149,7 +149,6 @@ export default {
         data,
         columns,
         loading:false,
-        visible: false,
     };
   },
   mounted() {
@@ -183,7 +182,7 @@ export default {
       this.data =  this.data.concat(data1) ;
     },
     showModal() {
-      this.visible = true;
+      this.$refs.showModal.showModal();
       this.$message.loading('加载中....', 0);
       setTimeout(()=>{
         this.$nextTick(()=>{
@@ -192,6 +191,7 @@ export default {
         })
       }, 1500);
     },
+
 
   },
 };

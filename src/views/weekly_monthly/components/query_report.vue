@@ -9,11 +9,13 @@
       </template>
      </mySearch>
     <div class="flex">
-      <a-table :columns="columns" :data-source="data" style="width:35%" >
-        <a slot="name" slot-scope="text">{{ text }}222</a>
+      <a-table :columns="columns" :data-source="data" >
+        <div slot="action" slot-scope="scope">
+           <a-button style="margin:20px" @click="lookDetail">查看详情</a-button>
+           <a-button  style="margin:20px 0" @click="exportExcel">下载报表</a-button>
+        </div>
       </a-table>
-      <a-button style="margin:20px" @click="lookDetail">查看详情</a-button>
-      <a-button  style="margin:20px 0" @click="exportExcel">下载报表</a-button>
+
     </div>
    
    </div>
@@ -30,13 +32,17 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     width:100,
-    scopedSlots: { customRender: 'name' },
   },
   {
     title: '统计日期范围',
     dataIndex: 'date',
     key: 'date',
-    width: 80,
+  },
+  {
+    title: 'Action',
+    align:'center',
+    key: 'action',
+    scopedSlots: { customRender: 'action' },
   },
 ];
 const data = [
@@ -65,14 +71,15 @@ export default {
   props:{
     router:{
       type:Object,
-      default:() =>{}
+      default: function (){
+        return {}
+      }
     }
   },
   data() {
     return {
       data,
       columns,
-
     }
   },
   methods: {

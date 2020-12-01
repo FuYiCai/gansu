@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between">
-        <span></span>
-        <DownloadXlsx />
-    </div>
+    <mySearch :inputVisibel="false" />
     <!-- table -->
     <div style="flex: 1; margin-top: 10px" ref="table_wrap">
       <a-table
@@ -36,14 +33,7 @@ const columns = [
   { title: 'Column 6', dataIndex: 'address', key: '6', width: 150 },
   { title: 'Column 7', dataIndex: 'address', key: '7', width: 150 },
   { title: 'Column 8', dataIndex: 'address', key: '8',},
-  {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    align:'center',
-    width: 200,
-    scopedSlots: { customRender: 'action' },
-  },
+
 ];
 
 const data = [];
@@ -57,11 +47,11 @@ for (let i = 0; i < 100; i++) {
 }
 
 import {breadcrumb_mixins} from '@/mixins/index' ;
-import DownloadXlsx from "@/components/Download_xlsx";
+import mySearch from "@/views/weekly_monthly/components/search";
 export default {
   mixins:[breadcrumb_mixins],
   components: {
-    DownloadXlsx,
+    mySearch,
   },
   data() {
      return {

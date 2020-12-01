@@ -74,12 +74,7 @@ const routes = [
         name: 'Analyse_recommen',
         meta: { title: '推荐位分析' }
       },
-      {
-        path: 'analyse/order_source',
-        component: () => import('@/views/page_analyse/order_source'),
-        name: 'Analyse_order_source',
-        meta: { title: 'order_source' }
-      },
+
       {
         path: 'analyse/hot_word',
         component: () => import('@/views/page_analyse/hot_word'),
