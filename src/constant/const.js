@@ -21,9 +21,17 @@ const menuData = [
 const rootSubmenuKeys = ['实时监控', '行为分析', '收视分析','周报月报'] ;
 const openKeys = ['实时监控'] ;
 
+const masterMap = [
+    {text:'移 动',key:'yidong'},
+    {text:'联 通',key:'liantong'},
+    {text:'电 信',key:'dianxing'},
+]
+
+
 
 export {
     menuData,
     rootSubmenuKeys,
-    openKeys
+    openKeys,
+    masterMap
 }

@@ -3,9 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugin/index'
+import axios from './config/axios'
 
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+import echarts from 'echarts' ;
+Vue.prototype.$echarts = echarts ;
+Vue.prototype.$http = axios ;
+
 
 Vue.config.productionTip = false
 

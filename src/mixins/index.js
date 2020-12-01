@@ -1,5 +1,6 @@
 
-import { rootSubmenuKeys } from '@/constant/const'
+import { rootSubmenuKeys } from '@/constant/const' ;
+import { mapState } from 'vuex'
 const breadcrumb_mixins = {
     inject:['me'],
     mounted() {
@@ -32,7 +33,18 @@ const breadcrumb_mixins = {
     },
 }
 
+const watchMaster = {
+    computed:{
+        ...mapState(['master'])
+    },
+    // watch: {
+    //     master:{
+          
+    //     }
+    // },
+}
 
 export {
-    breadcrumb_mixins
+    breadcrumb_mixins,
+    watchMaster
 }

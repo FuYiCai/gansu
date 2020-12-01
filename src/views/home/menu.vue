@@ -3,18 +3,14 @@
     <div class="logo">
         <a-dropdown >
           <p class="ant-dropdown-link" >
-            {{master}} <a-icon type="down" />
+            {{masterMap[masterKey].text}} <a-icon type="down" />
           </p>
           <a-menu slot="overlay" @click="dropdown">
-          <a-menu-item key="yidong">
-            <span>移 动</span>  
-          </a-menu-item>
-          <a-menu-item key="liantong">
-            <span>联 通</span>  
-          </a-menu-item>
-          <a-menu-item key="dianxing">
-            <span>电 信</span>  
-          </a-menu-item>
+            <template v-for="(item,index) in masterMap">
+              <a-menu-item  :key="index">
+                <span>{{item.text}}</span>  
+              </a-menu-item>
+            </template>
         </a-menu>
       </a-dropdown>
     </div>
@@ -48,15 +44,16 @@
   </div>
 </template>
 <script>
-import { menuData ,rootSubmenuKeys,openKeys} from '@/constant/const.js' ;
+import { menuData ,rootSubmenuKeys,openKeys , masterMap} from '@/constant/const.js' ;
 export default {
   inject:['me'],
   data() {
     return {
-      rootSubmenuKeys:rootSubmenuKeys,
-      openKeys:openKeys,
-      menuData:menuData,
-      master:'移 动'
+      rootSubmenuKeys,
+      openKeys,
+      menuData,
+      masterMap,
+      masterKey: window.sessionStorage.masterKey ||  0,
     };
   },
   watch:{
@@ -81,12 +78,12 @@ export default {
       this.$router.replace({ name: key })
     },
     dropdown({key}){
-      const map = {
-        yidong:'移 动',
-        liantong:'联 通' ,
-        dianxing:'电 信'
-      };
-      this.master = map[key] ;
+      this.masterKey = key ;
+      //  存入
+      window.sessionStorage.masterKey = key ;
+      window.sessionStorage.masterMapItem = JSON.stringify(masterMap[key]) ;
+      // 刷新页面
+      this.$store.commit('changMaster',masterMap[key])
     },
   },
 };

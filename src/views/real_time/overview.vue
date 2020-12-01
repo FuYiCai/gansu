@@ -12,7 +12,12 @@ export default {
         Header,
         Mybody
     },
-  
+    mounted(){
+        
+
+
+        console.log('this.$http',this.$http);
+    }
     
 }
 </script>

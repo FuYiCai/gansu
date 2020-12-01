@@ -8,5 +8,17 @@ module.exports = {
             }
         }
     },
+    devServer:{
+      proxy: {
+        '/api': {
+          target: 'http://test.iptvmall.cn/api/',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+        }
+      }
+    }
+
   }
   
