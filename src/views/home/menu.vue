@@ -16,9 +16,8 @@
     </div>
 
     <a-menu mode="inline" style="width: 100%" theme="dark" 
-    
+    :default-open-keys="openKeys"
     :selected-keys="selectedKeys"
-
     @select="selectMenu"
     @openChange="onOpenChange">
       <template v-for="item in menuData">
@@ -53,7 +52,7 @@ export default {
   data() {
     return {
       rootSubmenuKeys,
-      openKeys,
+      openKeys: this.defaultOpenKey(),
       menuData,
       masterMap,
       masterKey: window.sessionStorage.masterKey ||  0,
@@ -64,17 +63,27 @@ export default {
     openKeys:{
       immediate:true,
       handler:function(v){
-        this.me.breadcrumbData = v
+        this.me.breadcrumbData = v ;
       }
     },
     '$route':{
       immediate:true,
       handler:function(e) {
-        this.selectedKeys = [e.name]
+        this.selectedKeys = [e.name] 
       }
     }
   },
+  mounted(){
+      this.defaultOpenKey()
+  },
   methods: {
+      defaultOpenKey(){
+        const data = JSON.parse(window.sessionStorage.breadcrumbData) || [] ;
+        if(data.length){
+         return [data[0]]
+        }
+        return openKeys
+    },
     onOpenChange(openKeys) {
       const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {

@@ -17,7 +17,7 @@ const menuData = [
     }]},
 ]
 
-//  就面包屑用到,有更好想法自己替换
+//  就面包屑用到menu组件第一级有一个就加一个,有更好想法自己替换
 const rootSubmenuKeys = ['实时监控', '行为分析', '收视分析','周报月报'] ;
 const openKeys = ['实时监控'] ;
 

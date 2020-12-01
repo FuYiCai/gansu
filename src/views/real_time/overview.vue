@@ -13,10 +13,7 @@ export default {
         Mybody
     },
     mounted(){
-        
-
-
-        console.log('this.$http',this.$http);
+       
     }
     
 }

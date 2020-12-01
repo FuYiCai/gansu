@@ -24,6 +24,9 @@ import Real_time_live_streaming from '@/views/real_time/live_streaming'
 import Real_time_spaced_sowing from '@/views/real_time/spaced_sowing'
 
 
+
+// ！！ 新增menu一级菜单时 记得去constant目录配置跳转路由
+
 Vue.use(VueRouter) ;
 
 const originalPush = VueRouter.prototype.push
