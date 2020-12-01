@@ -194,13 +194,13 @@ export default {
     },
     showModal() {
       this.visible = true;
-      this.$message.loading('加载中...');
+      this.$message.loading('加载中....', 0);
       setTimeout(()=>{
         this.$nextTick(()=>{
+          this.$message.destroy()
           this.$refs.myEcharts.init(option)
         })
       }, 1500);
-
     },
 
   },
