@@ -9,15 +9,18 @@ import Analyse_sowing from '@/views/tv/sowing'
 import Report_form_supplier_routing from '@/views/weekly_monthly/supplier_routing_report_forms'
 import Report_form_trigger_order_forms from '@/views/weekly_monthly/trigger_order_forms'
 import Detail_supplier_trigger from '@/views/weekly_monthly/detail_supplier_trigger'
-import Page_visit_daily from '@/views/weekly_monthly/page_visit_form/daily'
-import Page_visit_weekly from '@/views/weekly_monthly/page_visit_form/weekly'
-import Page_visit_monthly from '@/views/weekly_monthly/page_visit_form/monthly'
-import Page_visit_detail from '@/views/weekly_monthly/page_visit_form/detail'
+import Page_visit_form_page from '@/views/weekly_monthly/page_visit_form_page'
+import Recommend_form_page from '@/views/weekly_monthly/recommend_form_page'
 
-import Recommend_daily from '@/views/weekly_monthly/recommend_form/daily'
-import Recommend_weekly from '@/views/weekly_monthly/recommend_form/weekly'
-import Recommend_monthly from '@/views/weekly_monthly/recommend_form/monthly'
-import Recommend_detail from '@/views/weekly_monthly/recommend_form/detail'
+// import Page_visit_daily from '@/views/weekly_monthly/page_visit_form/daily'
+// import Page_visit_weekly from '@/views/weekly_monthly/page_visit_form/weekly'
+// import Page_visit_monthly from '@/views/weekly_monthly/page_visit_form/monthly'
+// import Page_visit_detail from '@/views/weekly_monthly/page_visit_form/detail'
+
+// import Recommend_daily from '@/views/weekly_monthly/recommend_form/daily'
+// import Recommend_weekly from '@/views/weekly_monthly/recommend_form/weekly'
+// import Recommend_monthly from '@/views/weekly_monthly/recommend_form/monthly'
+// import Recommend_detail from '@/views/weekly_monthly/recommend_form/detail'
 
 import Real_time_overview from '@/views/real_time/overview'
 import Real_time_live_streaming from '@/views/real_time/live_streaming'
@@ -115,53 +118,18 @@ const routes = [
         meta: { title: '详情' }
       },
       {
-        path: 'page_visit_weekly',
-        component: Page_visit_weekly ,
-        name: 'Page_visit_weekly',
-        meta: { title: '页面访问周报' }
+        path: 'page_visit_form',
+        component: Page_visit_form_page ,
+        name: 'Page_visit_form_page',
+        meta: { title: '页面访问报表' }
       },
       {
-        path: 'page_visit_daily',
-        component: Page_visit_daily ,
-        name: 'Page_visit_daily',
-        meta: { title: '页面访问日报' }
+        path: 'recommend_form',
+        component: Recommend_form_page ,
+        name: 'Recommend_form_page',
+        meta: { title: '推荐位报表' }
       },
-      {
-        path: 'page_visit_monthly',
-        component: Page_visit_monthly ,
-        name: 'Page_visit_monthly',
-        meta: { title: '页面访问月报' }
-      },
-      {
-        path: 'page_visit_detail',
-        component: Page_visit_detail ,
-        name: 'Page_visit_detail',
-        meta: { title: '页面访问详情' }
-      },
-      {
-        path: 'recommend_weekly',
-        component: Recommend_weekly ,
-        name: 'Recommend_weekly',
-        meta: { title: '页面访问周报' }
-      },
-      {
-        path: 'recommend_daily',
-        component: Recommend_daily ,
-        name: 'Recommend_daily',
-        meta: { title: '页面访问日报' }
-      },
-      {
-        path: 'recommend_monthly',
-        component: Recommend_monthly ,
-        name: 'Recommend_monthly',
-        meta: { title: '页面访问月报' }
-      },
-      {
-        path: 'recommend_detail',
-        component: Recommend_detail ,
-        name: 'Recommend_detail',
-        meta: { title: '页面访问详情' }
-      },
+
     ]
   },
   {
