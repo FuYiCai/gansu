@@ -78,7 +78,7 @@ export default {
   },
   methods: {
       defaultOpenKey(){
-        const data = JSON.parse(window.sessionStorage.breadcrumbData) || [] ;
+        const data = window.sessionStorage.breadcrumbData && JSON.parse(window.sessionStorage.breadcrumbData) || [] ;
         if(data.length){
          return [data[0]]
         }
