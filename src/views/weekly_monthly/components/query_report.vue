@@ -1,6 +1,8 @@
 <template>
    <div>
-     <mySearch :inputVisibel="false" >
+     <mySearch :inputVisibel="inputVisibel" 
+     :rangePickerVisibel="rangePickerVisibel"
+      :timesArrVisibel="timesArrVisibel">
         <template  v-slot:right>
           <div class="flex">
               <a-button>趋势</a-button>
@@ -74,7 +76,11 @@ export default {
       default: function (){
         return {}
       }
-    }
+    },
+    timesArrVisibel:Boolean,
+    rangePickerVisibel:Boolean,
+    inputVisibel:Boolean,
+    
   },
   data() {
     return {
