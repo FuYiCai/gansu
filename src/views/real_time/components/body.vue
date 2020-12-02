@@ -7,9 +7,26 @@
         </a-radio-group>
         <h3 style="margin-top:20px">EPG热力图</h3>
         <div class="flex justify-between" style="width:100%;margin-bottom:20px">
+          <!--    EPG热力图   -->
             <div class="frame-wrap">
-                EPG热力图
+                    
+               <div id="container">
+                <div 
+                v-for="(item, index) in hotImg" :key="index"
+                :class="['griditem', 'grid-' + (index + 1)]" > 
+                    <div class="grid-img" style="width:100%;height:100%">
+                        <img  :src="item" alt="" width="100%" height="100%">
+                        <span  :class="['grid-img-span zwyHover1','blur'+index]"></span>
+                    </div>
+                </div>   
+               </div>
             </div>
+
+
+
+
+
+            <!--  -->
             <div  class="content1">
                 <span class="title-text">推荐位点击量排名</span>
                 <div class="flex justify-between">
@@ -214,6 +231,20 @@ const option1 = {
 };
 
 
+import e0 from '@/assets/images/e0.jpg' 
+import e1 from '@/assets/images/e1.jpg'
+import e2 from '@/assets/images/e2.jpg'
+import e3 from '@/assets/images/e3.jpg'
+import e4 from '@/assets/images/e4.jpg' 
+import e5 from '@/assets/images/e5.jpg'
+import e6 from '@/assets/images/e6.jpg' 
+import e7 from '@/assets/images/e7.jpg'
+import e8 from '@/assets/images/e8.jpg'
+import e9 from '@/assets/images/e9.jpg'
+import e10 from '@/assets/images/e10.jpg'
+import e11 from '@/assets/images/e11.jpg'
+import e12 from '@/assets/images/e12.jpg'
+
 
 export default {
     inject:['me'],
@@ -252,6 +283,7 @@ export default {
     },
     data(){
         return {
+            hotImg:[e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12],
             cachePadding:'24px',
             listData: [
                 {
@@ -367,15 +399,99 @@ export default {
 <style lang="scss" scoped>
 $main-color:#1890ff;
 $grey:#999;
+
+
+#container{
+    width:100%;  
+    height:100%;
+    display:inline-grid;
+    grid-template-columns:repeat(4,25%) ;
+    grid-template-rows: repeat(4, 25%);
+    grid-template-areas: 'a b c d'
+                        'e f g h'
+                        'i j k l'
+                        'm n o p';
+
+}
+
+
+  .griditem {
+    width:100%;  
+    height:100%;
+    border: 5px solid #1890ff;
+    background-image: url("../../../assets/images/e1.jpg");
+    background-repeat: no-repeat;   
+    background-size: 100% 100%;  
+ 
+  
+ }
+
+.grid-2 {
+  grid-area: a / b / f / g ;
+}
+.grid-img{
+    position: relative;
+    z-index: 1;
+}
+.grid-img-span{
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    // transform: translate(-50%, -50%);
+    background: rgba(212, 17, 17,0.9);
+    z-index: 2;
+    border-radius: 50%;
+} 
+.blur1{
+    filter: blur(10px);
+}
+.blur2{
+    filter: blur(2px);
+}
+
+.blur3{
+    filter: blur(3px);
+}
+
+.blur4{
+    filter: blur(4px);
+}
+
+.blur5{
+    filter: blur(5px);
+}
+@keyframes zwyHover1 {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.zwyHover1 {
+	--count: infinite;
+	animation: zwyHover1 1s var(--count) !important;
+}
+
 .frame-wrap{
-    width: 50%;
+    width: 65%;
     height: 400px;
     text-align: center;
-    line-height: 350px;
+    // line-height: 350px;
     border: 1px solid #999;
     background-image: url("../../../assets/images/hot.png");
     background-repeat: no-repeat;   
     background-size: 100% 100%;   
+
+    
 }
 h3{
     color: $main-color ;
