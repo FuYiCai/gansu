@@ -5,19 +5,15 @@
 import FileSaver from 'file-saver' ;
 import XLSX from 'xlsx' ;
 export default {
-    // props:{
-    //     dataSource:{
-    //         type:Array,
-    //         required: true
-    //     },
-    //     TableHeader:{
-    //         type:Array,
-    //         required: true
-    //     }
-    // },
+    props:{
+        dataSource:{
+            type:Array,
+            required: true
+        },
+    },
     methods:{
         exportExcel() {
-            //   this.me._data.columns,this.me._data.data
+
             var wopts = {
                 bookType: 'xlsx',
                 bookSST: true,
@@ -28,20 +24,19 @@ export default {
                 Sheets: {},
                 Props: {}
             };
-            const table = [];
-            const dataSource = this.dataSource;
-            for(let i=0;i<dataSource.length;i++){
-                const params = {
-                    姓名: dataSource[i].name,
-                    年龄: dataSource[i].age,
-                    address: dataSource[i].address,
-                }
-                table[i] = params
-            };
-            console.log('table',table);
+            // const table = [];
+            // const dataSource = this.dataSource;
+            // for(let i=0;i<dataSource.length;i++){
+            //     const params = {
+            //         姓名: dataSource[i].name,
+            //         年龄: dataSource[i].age,
+            //         address: dataSource[i].address,
+            //     }
+            //     table[i] = params
+            // };
             //1、XLSX.utils.json_to_sheet(data) 接收一个对象数组并返回一个基于对象关键字自动生成的“标题”的工作表，默认的列顺序由使用Object.keys的字段的第一次出现确定
             //2、将数据放入对象workBook的Sheets中等待输出
-            workBook.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(table);
+            workBook.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(this.dataSource);
 
             //3、XLSX.write() 开始编写Excel表格
             //4、changeData() 将数据处理成需要输出的格式

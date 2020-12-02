@@ -16,7 +16,7 @@
                 :class="['griditem', 'grid-' + (index + 1)]" > 
                     <div class="grid-img" style="width:100%;height:100%">
                         <img  :src="item" alt="" width="100%" height="100%">
-                        <span  :class="['grid-img-span zwyHover1','blur'+index]"></span>
+                        <span  :class="['grid-img-span','blur'+index]"  >56465465646565</span>
                     </div>
                 </div>   
                </div>
@@ -435,15 +435,20 @@ background-size: 100% 100%;
     z-index: 1;
 }
 .grid-img-span{
-    width: 80%;
-    height: 80%;
     position: absolute;
     left: 10%;
     top: 10%;
-    // transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    color: #fff;
     background: rgba(212, 17, 17,0.9);
     z-index: 2;
     border-radius: 50%;
+    --count: infinite;
+	animation: zwyHover1 1s var(--count) !important;
 } 
 .blur1{
     filter: blur(10px);
@@ -477,10 +482,6 @@ background-size: 100% 100%;
 	}
 }
 
-.zwyHover1 {
-	--count: infinite;
-	animation: zwyHover1 1s var(--count) !important;
-}
 
 .frame-wrap{
     width: 65%;
