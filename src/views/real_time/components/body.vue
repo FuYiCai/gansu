@@ -252,36 +252,7 @@ export default {
         Myecharts,
         vueSeamlessScroll
     },
-    mounted(){
-        this.$refs.trend.init(option) ;
-        this.$refs.tvGuide.init(option1) ;
-
-        // 自定contentPadding
-        this.cachePadding = this.me._data.contentPadding ;
-        this.me._data.contentPadding = 0 ;
-    },
-    destroyed() {
-        this.me._data.contentPadding = this.cachePadding ;
-    },
-    computed:{
-         optionHover () {
-            return {
-                    /*悬停*/
-                    hoverStop: true,
-                    /*速度*/
-                    step:0.5
-                    //step: 0.2, // 数值越大速度滚动越快
-                    //limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
-                    //hoverStop: true, // 是否开启鼠标悬停stop
-                    //direction: 1, // 0向下 1向上 2向左 3向右
-                    //openWatch: true, // 开启数据实时监控刷新dom
-                    //singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
-                    //singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-                    //waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
-            }
-        }
-    },
-    data(){
+        data(){
         return {
             hotImg:[e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12],
             cachePadding:'24px',
@@ -389,6 +360,36 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.$refs.trend.init(option) ;
+        this.$refs.tvGuide.init(option1) ;
+
+        // 自定contentPadding
+        this.cachePadding = this.me._data.contentPadding ;
+        this.me._data.contentPadding = 0 ;
+    },
+    destroyed() {
+        this.me._data.contentPadding = this.cachePadding ;
+    },
+    computed:{
+         optionHover () {
+            return {
+                    /*悬停*/
+                    hoverStop: true,
+                    /*速度*/
+                    step:0.5
+                    //step: 0.2, // 数值越大速度滚动越快
+                    //limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+                    //hoverStop: true, // 是否开启鼠标悬停stop
+                    //direction: 1, // 0向下 1向上 2向左 3向右
+                    //openWatch: true, // 开启数据实时监控刷新dom
+                    //singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+                    //singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+                    //waitTime: 1000 // 单步运动停止的时间(默认值1000ms)
+            }
+        }
+    },
+
     methods: {
         handleMenuClick(e){
             console.log(e);
@@ -415,16 +416,16 @@ $grey:#999;
 }
 
 
-  .griditem {
-    width:100%;  
-    height:100%;
-    border: 5px solid #1890ff;
-    background-image: url("../../../assets/images/e1.jpg");
-    background-repeat: no-repeat;   
-    background-size: 100% 100%;  
- 
-  
- }
+.griditem {
+width:100%;  
+height:100%;
+border: 5px solid #1890ff;
+background-image: url("../../../assets/images/e1.jpg");
+background-repeat: no-repeat;   
+background-size: 100% 100%;  
+
+
+}
 
 .grid-2 {
   grid-area: a / b / f / g ;
@@ -484,14 +485,10 @@ $grey:#999;
 .frame-wrap{
     width: 65%;
     height: 400px;
-    text-align: center;
-    // line-height: 350px;
     border: 1px solid #999;
-    background-image: url("../../../assets/images/hot.png");
-    background-repeat: no-repeat;   
-    background-size: 100% 100%;   
-
-    
+    // background-image: url("../../../assets/images/hot.png");
+    // background-repeat: no-repeat;   
+    // background-size: 100% 100%;   
 }
 h3{
     color: $main-color ;
