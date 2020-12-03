@@ -5,23 +5,23 @@
                 <div >
                     <div class="start-up "  >
                         <span    class="title ">今日开机数</span>
-                        <span style="font-size:20px;">665432 <sub>台</sub></span>
+                        <span style="font-size:20px;">{{userbasedata.userOn}} <sub>台</sub></span>
                     </div>
                 </div>
                 <Myecharts width="200px" height="200px"  id="headRin" ref="headRin" />
             </div>
             <div style="align-self:flex-end " class="flex">
                 <p class="flex flex-column">
-                    <span class="title">今日开机数</span>
-                    <span style="font-size:25px;color:#000">665432 <sub>台</sub></span>
+                    <span class="title">日均开机数</span>
+                    <span style="font-size:25px;color:#000">{{userbasedata.muserOnAvg}} <sub>台</sub></span>
                 </p>
                 <p class="flex flex-column" style="margin:0  50px">
                     <span class="title">户日均观看时长</span>
-                    <span style="font-size:25px;color:#000">230  <sub>分钟</sub></span>
+                    <span style="font-size:25px;color:#000">{{userbasedata.muserTimeAvg}}<sub>分钟</sub></span>
                 </p>
                 <p class="flex flex-column " >
                     <span class="title">月度总观看时长</span>
-                    <span  style="font-size:25px;color:#000;"> 3.1 <sub>万小时</sub></span>
+                    <span  style="font-size:25px;color:#000;"> {{userbasedata.mtimeLength}} <sub>小时</sub></span>
                 </p>
             </div>
         </header>
@@ -33,6 +33,7 @@
 </template>
 <script>
 import Myecharts  from '@/components/My_echarts' ;
+import moment from 'moment';
 
 // 饼图
 const option = {
@@ -77,13 +78,12 @@ const option = {
             data: [
                 {value: 335, name: '实时活跃人数'},
                 {value: 310, name: ' '},
-
             ]
         }
     ]
 };
 // 折线图
-const option1 = {
+const realOnline = {
     title: {
         text: ''
     },
@@ -91,11 +91,11 @@ const option1 = {
         trigger: 'axis'
     },
 
-    legend: {
-        x: 'left',
-        y: 'top',
-        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-    },
+    // legend: {
+    //     x: 'left',
+    //     y: 'top',
+    //     data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+    // },
     grid: {
         left: '3%',
         right: '4%',
@@ -159,12 +159,83 @@ export default {
     components:{
         Myecharts
     },
- 
+    data() {
+        return {
+            userbasedata:{
+                dateTime: "2020-12-03",
+                mtimeLength: "12323",
+                muserOnAvg: "23423",
+                muserTimeAvg: "123134",
+                onlineUserCount: "343413",
+                sysId: "a",
+                userOn: "134455",
+            },
+            
+        }
+    }, 
+
     mounted(){
-        this.$refs.headRin.init(option) ;
-        this.$refs.realTime.init(option1) ;
-        this.$refs.per.init(option1) ;
+        this.userbasedataFn();
+        this.userbasedataPage()
     },
+    methods:{
+        userbasedataFn(){
+            this.$http.get(`userbasedata?type=${this.$store.getters.masterType}`).then(res =>{
+                const data = res.data.data ;
+                this.userbasedata = data ;
+                option.series[0].data[0].value = data.onlineUserCount;
+                this.$refs.headRin.init(option) ;
+            })
+        },
+        // 
+        userbasedataPage(){
+            const me = this;
+            const promise = (starttime,endtime) =>  this.$http.get(`userbasedata/page?dateTime=${starttime}&endTime=${endtime}&sysId=${this.$store.getters.masterType}&size=31`) ;
+           
+            // 实时在线
+                // 今天 moment()
+                // 昨天  moment().subtract(1, 'days')
+            //  promise(+moment()._d,+moment().subtract(1, 'days')._d).then(res =>{
+            //      console.log('shishi',res);
+            //  })
+
+            //  户均观看时长
+                // 本月 [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')]
+            const [start1,end1] = [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')]
+                // 上月 [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]
+            const [start2,end2] = [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]  ;
+
+            Promise.all([promise(start1._i,end1._i),promise(start2._i,end2._i)]).then(res =>{
+                console.log('yue',res);
+            })
+
+
+
+            // .then(res =>{
+            //     console.log('userbasedataPage',res);
+            //     const data = res.data.data ;
+            //     const userTimeAvg = JSON.parse(JSON.stringify(realOnline)) ;
+            //     realOnline.xAxis.data = data.records.map(item => item.dateTime) ;
+            //     realOnline.series = data.records.map(item => {
+            //         return {
+            //             type: 'line',
+            //             name:'实时在线',
+            //             data:[item.onlineUserCount]
+            //         }
+            //     }) ;
+            //     userTimeAvg.xAxis.data = data.records.map(item => item.dateTime) ;
+            //     userTimeAvg.series = data.records.map(item => {
+            //         return {
+            //             type: 'line',
+            //             name:'户均观看时长',
+            //             data:[item.muserTimeAvg]
+            //         }
+            //     }) ;
+            //     this.$refs.realTime.init(realOnline) ;
+            //     this.$refs.per.init(userTimeAvg)
+            // })
+        }
+    }
 }
 </script>
 <style lang="scss" scope>

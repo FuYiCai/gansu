@@ -12,9 +12,7 @@ export default {
         Header,
         Mybody
     },
-    mounted(){
-       
-    }
+
     
 }
 </script>

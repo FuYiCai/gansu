@@ -2,11 +2,12 @@ import axios from 'axios'
 import store from '@/store/index';
 
 
+//  http://172.17.103.105:12223/
 
 const baseURL = {
-    'yidong':'http://172.17.103.105:12223/',
-    'liantong':'https://bbbbbb.com/api/',
-    'dianxing':'https://bccccccccccccccccb.com/api/',
+    'yidong':'/api',
+    'liantong':'/api',
+    'dianxing':'/api',
 }
 
 const instance = axios.create({

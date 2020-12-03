@@ -10,8 +10,10 @@
           </div>
       </template>
      </mySearch>
-    <div class="flex">
-      <a-table :columns="columns" :data-source="data" >
+    <div class="flex" >
+      <a-table :columns="columns" :data-source="tableData" :scroll="{ y: 440 }"
+      :loading="loading"
+       >
         <div slot="action" slot-scope="scope">
            <a-button style="margin:20px" @click="lookDetail">查看详情</a-button>
            <a-button  style="margin:20px 0" @click="exportExcel">下载报表</a-button>
@@ -58,11 +60,6 @@ const data = [
     name: 'Jim Green',
     date: 42,
   },
-  {
-    key: '3',
-    name: 'Joe Black',
-    date: 32,
-  },
 ];
 
 export default {
@@ -77,15 +74,20 @@ export default {
         return {}
       }
     },
+    loading:{
+      type:Boolean,
+      default:false
+    },
     timesArrVisibel:Boolean,
     rangePickerVisibel:Boolean,
     inputVisibel:Boolean,
+    tableData:Array,
+    columns:Array,
     
   },
   data() {
     return {
-      data,
-      columns,
+  
     }
   },
   methods: {

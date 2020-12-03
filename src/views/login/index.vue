@@ -24,15 +24,15 @@
             <a-form-item label="账号">
               <a-input
                 v-decorator="[
-                  '账号',
+                  'username',
                   { rules: [{ required: true, message: '请输入账号!' }] },
                 ]"
               />
             </a-form-item>
             <a-form-item label="密码">
-              <a-input
+              <a-input-password
                 v-decorator="[
-                  '密码',
+                  'password',
                   { rules: [{ required: true, message: '请输入密码!' }] },
                 ]"
               />
@@ -60,9 +60,12 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-          window.localStorage.logInfo = JSON.stringify(values)
-          this.$router.replace({
-            name:'Home'
+          const  { password,username } = values ;
+          this.$http.get(`signin?password=${password}&username=${username}`).then(res =>{
+             window.localStorage.logInfo = JSON.stringify(res.data.data) ;
+             this.$router.replace({
+              name:'Home'
+             })
           })
         }
       });

@@ -22,9 +22,23 @@ const  countDown = () => {
   }, secondsToGo * 1000);
 };
 const master = window.sessionStorage.masterMapItem ? JSON.parse(window.sessionStorage.masterMapItem) : false ;
+
+
 export default new Vuex.Store({
   state: {
     master: master || {text:'移 动',key:'yidong'},
+  },
+  getters:{
+    masterType: state => {
+      // 运营商（t:电信,u:联通,m:移动,a:全部数据,不分运营商）;
+       const map =  {
+          yidong:'m',
+          liantong:'u',
+          dianxing:'t'
+      }
+      const type = map[state.master.key] ? map[state.master.key] : 'a' ;
+      return type ;
+    }
   },
   mutations: {
     changMaster (state, n) {
