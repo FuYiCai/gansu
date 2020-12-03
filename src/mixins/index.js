@@ -33,12 +33,22 @@ const breadcrumb_mixins = {
             return  setBreadcrumbData(breadcrumbData);
         }
         
-
     },
 }
 
+const menuTabelMinxis = {
+    mounted() {
+        this.$nextTick(()=>{
+            setTimeout(()=>{
+                const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
+                this.x = parseInt(width) ;
+                this.y = parseInt(height) - 90;
+            })
+        })
+    }
+}
 
 
 export {
-    breadcrumb_mixins
+    breadcrumb_mixins,menuTabelMinxis
 }

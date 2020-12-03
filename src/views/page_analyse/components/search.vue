@@ -28,9 +28,9 @@ export default {
     },
     props:{
         dataSource:{
-            type:Array,
+            type:Object,
             default:function(){
-              return []
+              return {tabelName:'test',arr:[]}
             }
         },
         inputText:{

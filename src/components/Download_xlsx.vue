@@ -6,8 +6,8 @@ import FileSaver from 'file-saver' ;
 import XLSX from 'xlsx' ;
 export default {
     props:{
-        dataSource:{
-            type:Array,
+        dataSource:{    // {tabelName:xxx,arr:[]}
+            type:Object,
             required: true
         },
     },
@@ -26,8 +26,9 @@ export default {
             };
             
             let dataSource = [{暂无数据:'暂无数据'}] ;
-            if(this.dataSource.length){
-                dataSource = this.dataSource
+            let tabelName =  this.dataSource.tabelName ? this.dataSource.tabelName : 'sheet' ;
+            if(this.dataSource.arr.length){
+                dataSource = this.dataSource.arr;
             }
 
             // const table = [];
@@ -45,7 +46,7 @@ export default {
 
             //3、XLSX.write() 开始编写Excel表格
             //4、changeData() 将数据处理成需要输出的格式
-            FileSaver.saveAs(new Blob([this.changeData(XLSX.write(workBook, wopts))], {type: 'application/octet-stream'}), "sheetjs.xlsx")
+            FileSaver.saveAs(new Blob([this.changeData(XLSX.write(workBook, wopts))], {type: 'application/octet-stream'}), tabelName+".xlsx")
         },
         
         changeData(s) {

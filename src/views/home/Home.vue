@@ -60,6 +60,7 @@ export default {
     hide() {
       this.visible = false;
       localStorage.clear() ;
+      sessionStorage.clear() ;
       window.location.reload()
     }
   },

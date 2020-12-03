@@ -63,7 +63,7 @@ for (let i = 0; i < 100; i++) {
 
 import Myecharts  from '@/components/My_echarts' ;
 
-import {breadcrumb_mixins} from '@/mixins/index' ;
+import {breadcrumb_mixins,menuTabelMinxis} from '@/mixins/index' ;
 import mySearch from '@/views/page_analyse/components/search' ;
 import myModal from '@/views/page_analyse/components/modal' ;
 const option = {
@@ -132,7 +132,7 @@ const option = {
 };
   const data1 = [];
 export default {
-  mixins:[breadcrumb_mixins],
+  mixins:[breadcrumb_mixins,menuTabelMinxis],
   provide(){
     return {
       me:this
@@ -169,17 +169,13 @@ export default {
           } ;
           tabel[i] = params ;
         })
-       return tabel ;
+       return {tabelName:'页面分析',arr:tabel};
       }
-      return []
+      return {arr:[]}
     }
   },
   mounted() {
-    this.$nextTick(()=>{
-        const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
-        this.x = parseInt(width) ;
-        this.y = parseInt(height) - 40;
-    })
+
   },
   methods: {
     getTabelTitle(){
