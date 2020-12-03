@@ -2,6 +2,8 @@
    <div>
      <mySearch :inputVisibel="inputVisibel" 
      :rangePickerVisibel="rangePickerVisibel"
+     :inputText="inputText"
+     @search="query"
       :timesArrVisibel="timesArrVisibel">
         <template  v-slot:right>
           <div class="flex">
@@ -83,7 +85,7 @@ export default {
     inputVisibel:Boolean,
     tableData:Array,
     columns:Array,
-    
+    inputText:String
   },
   data() {
     return {
@@ -94,31 +96,13 @@ export default {
     onChangeMonth(e){
       console.log(e);
     },
-    query(){
-
+    query(v){
+      this.$emit('search',v)
     },
     lookDetail(){
         const obj = this.router.name ? this.router : {name:'Detail_supplier_trigger'} ;
         this.$router.push(obj)
     },
-    exportExcel() {
-      var xlsxParam = { raw: true };//转换成excel时，使用原始的格式
-      var wb = XLSX.utils.table_to_book(document.querySelector("#outTable"),xlsxParam);//outTable为列表id
-      var wbout = XLSX.write(wb, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array"
-      });
-      try {
-        FileSaver.saveAs(
-          new Blob([wbout], { type: "application/octet-stream;charset=utf-8" }),
-          "sheetjs.xlsx"
-        );
-      } catch (e) {
-        if (typeof console !== "undefined") console.log(e, wbout);
-      }
-      return wbout;
-    }
   },
 }
 </script>

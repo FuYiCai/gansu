@@ -2,7 +2,7 @@
     <a-row type="flex" justify="space-between" style="margin-bottom:10px">
       <a-col  :span="16">
           <template v-if="inputVisibel">
-            {{inputText}} <a-input placeholder="请输入关键字" v-model="inputValue" style="width:15%" /> 
+            {{inputText}} <a-input placeholder="请输入关键字"  allow-clear v-model="inputValue" style="width:15%" /> 
           </template>
          <slot />
         <template v-if="timesArrVisibel">
@@ -57,17 +57,16 @@ export default {
         }
     },
     methods: {
-      
       onChangePickerRange(date,dateString) {
         // console.log(date, dateString);
         this.pickerRange = dateString
       },
-      query(){
-          this.$emit('search')
+      query(){ 
+        this.$emit('search',this.inputValue)
       },
       getTimes(date){
           const map = {
-            day:  moment(),
+            day:  moment().format(),
             zhou : [moment().day(7).subtract(6, 'days'), moment().day(7)] ,
             benYue : [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')],
             shangYue :  [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]
