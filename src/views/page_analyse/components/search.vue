@@ -15,7 +15,7 @@
         <a-button @click="query" style="margin-left:10px" type="primary"> 查询 </a-button>
       </a-col>
       <a-col :span="3"> 
-         <slot name="right" > <DownloadXlsx /> </slot>
+         <slot name="right" > <DownloadXlsx  :dataSource="dataSource" /> </slot>
       </a-col>
     </a-row>
 </template>
@@ -27,6 +27,12 @@ export default {
         DownloadXlsx
     },
     props:{
+        dataSource:{
+            type:Array,
+            default:function(){
+              return []
+            }
+        },
         inputText:{
             type:String,
             default:'页面标题：'

@@ -1,6 +1,7 @@
 <template>
   <div class="wrap" >
-    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" />
+    <mySearch ref="search" @search="searchFn"  :dataSource="dataSource"
+    @getTimesChange="getTimesChange" />
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
         <a-table :columns="columns" bordered  
@@ -151,6 +152,28 @@ export default {
         loading:false,
     };
   },
+  computed:{
+    // 导出报表数据
+    dataSource(){
+      const len = this.data.length ;
+      if(len){
+        const tabel = [] ;
+        const title = this.getTabelTitle();
+        for(let i=0;i<len;i++){}
+        this.data.forEach((item,i) =>{
+          const params = {
+            [title[0]]: item.name,
+            [title[1]]: item.age,
+            [title[2]]: item.key,
+            [title[3]]: item.address,
+          } ;
+          tabel[i] = params ;
+        })
+       return tabel ;
+      }
+      return []
+    }
+  },
   mounted() {
     this.$nextTick(()=>{
         const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
@@ -159,6 +182,9 @@ export default {
     })
   },
   methods: {
+    getTabelTitle(){
+      return  columns.map(item =>item.title)
+    },
     searchFn(){
       console.log(this.$refs.search);
     },
