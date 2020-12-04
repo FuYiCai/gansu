@@ -1,5 +1,5 @@
 <template>
-    <a-button @click="exportExcel">导出报表</a-button>
+    <a-button @click="exportExcel">{{text}}</a-button>
 </template>
 <script>
 import FileSaver from 'file-saver' ;
@@ -10,6 +10,10 @@ export default {
             type:Object,
             required: true
         },
+        text:{
+            type:String,
+            default:'导出报表'         
+        }
     },
     methods:{
         exportExcel() {
