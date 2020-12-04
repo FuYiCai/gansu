@@ -77,7 +77,7 @@ const option = {
             },
             data: [
                 {value: 335, name: '实时活跃人数'},
-                {value: 310, name: ' '},
+                {value: 0, name: ' '},
             ]
         }
     ]
@@ -124,25 +124,6 @@ const realOnline = {
             stack: '总量',
             data: [220, 182, 191, 234, 290, 330, 310]
         },
-        {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-        },
-      
-        {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-        },
-        {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-        },
         
     ],
     dataZoom: {
@@ -177,63 +158,65 @@ export default {
     mounted(){
         this.userbasedataFn();
         this.userbasedataPage()
+        this.getOnlinetimesharingdata()
     },
     methods:{
         userbasedataFn(){
             this.$http.get(`userbasedata?type=${this.$store.getters.masterType}`).then(res =>{
-                const data = res.data.data ;
-                this.userbasedata = data ;
-                option.series[0].data[0].value = data.onlineUserCount;
+                console.log(res);
+                if(res.data.data) {
+                    const data = res.data.data ;
+                    this.userbasedata = data ;
+                    option.series[0].data[0].value = data.onlineUserCount;
+                }else{
+                    option.series[0].data[0].value =0
+                }
                 this.$refs.headRin.init(option) ;
+
+            }).catch(err =>{
+                console.log(err);
             })
+        },
+        
+        getOnlinetimesharingdata(){
+            const yesterday = moment().subtract(1, 'days').format().split('T')[0] ;
+            const day = moment().format().split('T')[0] ;
+            const promise = (date) =>  this.$http(`onlinetimesharingdata/list?type=${this.$store.getters.masterType}&date=${date}`) ;
+            promise(day).then(res =>{
+                const data = res.data.data ;
+                realOnline.xAxis.data = data.map((item,i) => i) ;
+
+                const one = {
+                        name: '今日实时人数',
+                        type: 'line',
+                        stack: '总量',
+                        data: data.map(item => item.todayOnlineCount)
+                    }
+                const two = {
+                        name: '昨日实时人数',
+                        type: 'line',
+                        stack: '总量',
+                        data: data.map(item => item.yesterdayOnlineCount)
+                    }
+                realOnline.series = [one,two] ;
+                console.log(realOnline);
+                this.$refs.realTime.init(realOnline)
+            }) 
+            // Promise.all([promise(yesterday),promise(day)]).then(res =>{
+            //     console.log(res);
+            //     const [yesterday,day] = res.data.data ;
+            //     realOnline.xAxis.data = yesterday.map((item,i) => i) ;
+            //     const datamap =  ['今年','昨天'] ;
+            //     realOnline.xAxis.series = yesterday
+            // })
+           
         },
         // 
         userbasedataPage(){
-            const me = this;
-            const promise = (starttime,endtime) =>  this.$http.get(`userbasedata/page?dateTime=${starttime}&endTime=${endtime}&sysId=${this.$store.getters.masterType}&size=31`) ;
-           
-            // 实时在线
-                // 今天 moment()
-                // 昨天  moment().subtract(1, 'days')
-            //  promise(+moment()._d,+moment().subtract(1, 'days')._d).then(res =>{
-            //      console.log('shishi',res);
-            //  })
-
-            //  户均观看时长
-                // 本月 [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')]
-            const [start1,end1] = [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')]
-                // 上月 [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]
-            const [start2,end2] = [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]  ;
-
-            Promise.all([promise(start1._i,end1._i),promise(start2._i,end2._i)]).then(res =>{
-                console.log('yue',res);
-            })
+ 
 
 
-
-            // .then(res =>{
-            //     console.log('userbasedataPage',res);
-            //     const data = res.data.data ;
-            //     const userTimeAvg = JSON.parse(JSON.stringify(realOnline)) ;
-            //     realOnline.xAxis.data = data.records.map(item => item.dateTime) ;
-            //     realOnline.series = data.records.map(item => {
-            //         return {
-            //             type: 'line',
-            //             name:'实时在线',
-            //             data:[item.onlineUserCount]
-            //         }
-            //     }) ;
-            //     userTimeAvg.xAxis.data = data.records.map(item => item.dateTime) ;
-            //     userTimeAvg.series = data.records.map(item => {
-            //         return {
-            //             type: 'line',
-            //             name:'户均观看时长',
-            //             data:[item.muserTimeAvg]
-            //         }
-            //     }) ;
-            //     this.$refs.realTime.init(realOnline) ;
-            //     this.$refs.per.init(userTimeAvg)
-            // })
+         
         }
     }
 }
