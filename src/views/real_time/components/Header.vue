@@ -157,13 +157,12 @@ export default {
 
     mounted(){
         this.userbasedataFn();
-        this.userbasedataPage()
+        this.getViewtimeavgdata()
         this.getOnlinetimesharingdata()
     },
     methods:{
         userbasedataFn(){
             this.$http.get(`userbasedata?type=${this.$store.getters.masterType}`).then(res =>{
-                console.log(res);
                 if(res.data.data) {
                     const data = res.data.data ;
                     this.userbasedata = data ;
@@ -199,8 +198,7 @@ export default {
                         data: data.map(item => item.yesterdayOnlineCount)
                     }
                 realOnline.series = [one,two] ;
-                console.log(realOnline);
-                this.$refs.realTime.init(realOnline)
+                this.$refs.realTime.init(realOnline) ;
             }) 
             // Promise.all([promise(yesterday),promise(day)]).then(res =>{
             //     console.log(res);
@@ -212,9 +210,33 @@ export default {
            
         },
         // 
-        userbasedataPage(){
- 
+        getViewtimeavgdata(){
+            const [month1,month2] = [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')] ;
+            const [lastmonth1,lastmonth2] = [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')] ;
+            const [monthstart,monthend] = [month1._i,month2._i] ;
+            const [laststart,lastend] = [lastmonth1._i,lastmonth2._i] ;
+            const promise = (start,end) => this.$http.get(`viewtimeavgdata/list?start=${start}&end=${end}&type=${this.$store.getters.masterType}`) ;
+            const realOnline2 = JSON.parse(JSON.stringify(realOnline)) ;
 
+            Promise.all([promise(laststart,lastend),promise(monthstart,monthend)]).then(res =>{
+                console.log('**',res);
+                 const data = res.data.data ;
+                realOnline2.xAxis.data = data.map((item,i) => i) ;
+                realOnline2.series[0] = {
+                        name: '昨日人均时长',
+                        type: 'line',
+                        stack: '总量',
+                        data: data.map(item => item.lastMonthTimeAvg)
+                    }
+                realOnline2.series[1] = {
+                        name: '今日人均时长',
+                        type: 'line',
+                        stack: '总量',
+                        data: data.map(item => item.viewTimeAvg)
+                    }
+                this.$refs.per.init(realOnline2) ;
+                
+            })
 
          
         }
