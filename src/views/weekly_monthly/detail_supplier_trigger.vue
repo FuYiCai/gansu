@@ -118,7 +118,7 @@ export default {
           {
           title: '页面名称',
           dataIndex: 'tbName',
-          key: 'tbName',
+          key: 'tbName', //pageName
           },
           {
             title: '浏览量',
@@ -127,7 +127,7 @@ export default {
             sorter: (a, b) => a.pv - b.pv,
           },
           {
-            title: '浏览量人数',
+            title: '浏览人数',
             dataIndex: 'uv',
             key: 'uv',
             sorter: (a, b) => a.uv - b.uv,
@@ -140,7 +140,7 @@ export default {
             },
           {
             title: '浏览-点击转化率',
-            dataIndex: 'viewClickRate',
+            dataIndex: 'viewClickRate', //uvClickRate
             key: 'viewClickRate',
             scopedSlots: { customRender: 'viewClickRate' },
             sorter: (a, b) => a.viewClickRate - b.viewClickRate,
@@ -178,7 +178,6 @@ export default {
     }
   },
   mounted() {
-    console.log('this.$route.params',this.$route.params.scope);
     const scopeObj = this.$route.params.scope ;
     this.paramsObj = scopeObj ;
     if(scopeObj.selfFrom === 'zhou'){
@@ -206,15 +205,28 @@ export default {
     getPageviewdwmdata(){
       this.loading = true ;
       const {startTime,endTime} =this;
-      this.$http(`pageviewdwmdata/page?startTime=${startTime}&endTime=${endTime}&size=10000`).then(res =>{
+      // 日报详情接口
+      let url = '';
+      if(this.paramsObj.selfFrom === 'ri'){
+       url = `pagetimesharingdata/page?`
+      }else{
+       url = `pageviewdwmdata/page?` ;
+      }
+      this.$http(url + `startTime=${startTime}&endTime=${endTime}&size=10000&sysId=${this.$store.getters.masterType}`).then(res =>{
         this.loading = false ;
-       this.data = res.data.data.records ;
+        const records = res.data.data.records ;
+        if(this.paramsObj.selfFrom === 'ri') {
+          records.forEach(item =>{
+            item.tbName = item.pageName;
+            item.viewClickRate = item.uvClickRate;
+          })
+        }
+        this.data = records ;
       })
     },
     pageNumberOnChange(pageNumber) {
       console.log(pageNumber);
     },  
-
 
   },
 };
