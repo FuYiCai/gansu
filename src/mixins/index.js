@@ -48,7 +48,38 @@ const menuTabelMinxis = {
     }
 }
 
-
+const getTimesChangeMixins = {
+    methods: {
+        getTimesChange(e){
+            console.log('?????????????');
+            //  日
+            if( typeof e === "string"){
+                this.startTime = this.endTime =  e.split('T')[0];
+                // 周
+            }else if(Array.isArray(e) && typeof e[0] === "string"){
+                const [start,end] = e ;
+                this.startTime = start ;
+                this.endTime = end;
+                // 月
+            }else{
+                const [start,end] = e ;
+                this.startTime = start._i ;
+                this.endTime = end._i;
+            }
+            this.init()
+        },
+        query(){
+            if(this.$refs.mySearch.pickerRange){
+               [this.startTime,this.endTime] = this.$refs.mySearch.pickerRange ;
+            }
+            if(this.$refs.mySearch.inputValue || this.$refs.mySearch.pickerRange) {
+                this.init()
+            }
+ 
+        },
+    }
+    
+}
 export {
-    breadcrumb_mixins,menuTabelMinxis
+    breadcrumb_mixins,menuTabelMinxis,getTimesChangeMixins
 }

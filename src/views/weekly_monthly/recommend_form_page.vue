@@ -171,7 +171,6 @@ export default {
     },
     methods: {
         getTimesChange(e){
-            console.log('eeeee',e);
             //  日
             if( typeof e === "string"){
                 this.startTime = this.endTime =  e.split('T')[0];

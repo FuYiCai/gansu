@@ -15,10 +15,17 @@
         </a-radio-button>
         </a-radio-group>
         <a-dropdown style="margin-bottom:20px;margin-left:auto">
+            <a-select default-value="lucy" style="width: 120px" @change="handleMenuClick">
+                <template v-for="(item, index) in menuArr">
+                    <a-select-option value="jack">
+                    Jack
+                     </a-select-option>
+                 </template>
+            </a-select>
             <a-menu slot="overlay" @click="handleMenuClick">
-            <a-menu-item key="1"> <a-icon type="user" />1st menu item </a-menu-item>
-            <a-menu-item key="2"> <a-icon type="user" />2nd menu item </a-menu-item>
-            <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
+            <template v-for="(item, index) in menuArr">
+                <a-menu-item :key="index">  {{item.title}} </a-menu-item>
+            </template>
             </a-menu>
             <a-button style="margin-left: 8px"> 选择数据指标 <a-icon type="down" /> </a-button>
         </a-dropdown>
@@ -32,6 +39,7 @@ export default {
     data() {
         return {
           visible: false,
+          menuArr:[]
         }
     },
     methods: {
@@ -44,7 +52,9 @@ export default {
         showModal() {
             this.visible = true;
         },
-
+        getMenuItem(arr) {
+            this.menuArr = arr
+        }
     },
 }
 </script>

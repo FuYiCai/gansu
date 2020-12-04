@@ -257,7 +257,7 @@ export default {
       // this.loading = false ;
       this.data =  this.data.concat(data1) ;
     },
-    showModal() {
+    showModal(obj) {
       this.$refs.showModal.showModal();
       this.$message.loading('加载中....', 0);
       setTimeout(()=>{
