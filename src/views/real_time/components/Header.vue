@@ -219,8 +219,6 @@ export default {
             const realOnline2 = JSON.parse(JSON.stringify(realOnline)) ;
 
             promise(monthstart,monthend).then(res =>{
-                console.log('realOnline2',res);
-                
                 const data = res.data.data;
                 realOnline2.xAxis.data = data.map((item,i) => i+1) ;
                 realOnline2.series[0] = {

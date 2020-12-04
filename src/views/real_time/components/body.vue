@@ -149,7 +149,7 @@ const option = {
     ],
     series: [
         {
-            name: '直接访问',
+            name: '访问率',
             type: 'bar',
             barWidth: '60%',
             data: [10, 52, 200, 334, 390, 330, 220,11,22,33,22,33],
@@ -361,10 +361,9 @@ export default {
         }
     },
     mounted(){
-        this.$refs.trend.init(option) ;
         this.$refs.tvGuide.init(option1) ;
-
-        // 自定contentPadding
+        this.getPageviewdwmdata()
+        // 自定 内容的 Padding 
         this.cachePadding = this.me._data.contentPadding ;
         this.me._data.contentPadding = 0 ;
     },
@@ -393,6 +392,15 @@ export default {
     methods: {
         handleMenuClick(e){
             console.log(e);
+        },
+        // 柱状图
+        getPageviewdwmdata(){
+            this.$http.get('pageviewdwmdata/list?type='+this.$store.getters.masterType).then(res =>{
+                console.log('res',res);
+                option.series[0].data = res.data.data.map(item => item.viewClickRate)
+               this.$refs.trend.init(option) ;
+                
+           })
         }
     },
 }
