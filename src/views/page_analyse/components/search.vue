@@ -53,7 +53,8 @@ export default {
     inject:['me'],
     data() {
         return {
-           inputValue:""
+           inputValue:"",
+           pickerRange:''
         }
     },
     methods: {
@@ -67,7 +68,7 @@ export default {
       getTimes(date){
           const map = {
             day:  moment().format(),
-            zhou : [moment().day(7).subtract(6, 'days'), moment().day(7)] ,
+            zhou : [moment().day(7).subtract(6, 'days').format('YYYY-MM-DD'), moment().day(7).format('YYYY-MM-DD')] ,
             benYue : [moment(moment().format('YYYY-MM-01')), moment(moment().add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')],
             shangYue :  [moment(moment().subtract(1, 'months').format('YYYY-MM-01')), moment(moment().format('YYYY-MM-01')).subtract(1, 'days')]
           }

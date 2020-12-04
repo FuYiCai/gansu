@@ -1,52 +1,27 @@
 <template>
   <div class="wrap" >
-    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" 
-    :propsData="propsData"
-    :timesArrVisibel="false" :rangePickerVisibel="false" />
-    <!-- table -->
+    <div class="flex justify-between">
+      <p></p>
+      <DownloadXlsx :dataSource="dataSource" />
+    </div>
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
-        <a-table :columns="columns" bordered  
-        @change="pageNumberOnChange"
-         :loading="loading"  :data-source="data" :scroll="{ x: x, y: y }" 
-   
-        >
+      <a-table :columns="columns" bordered  
+      @change="pageNumberOnChange"
+        :loading="loading"  :data-source="data" :scroll="{ y: 400 }" 
+  
+      >
+         <div slot="viewClickRate" slot-scope="scope">
+            {{scope + '%'}} 
+        </div>
      </a-table>
     </div>
   </div>
 </template>
 <script>
-const columns = [
-  { title: 'Full Name', width: 100, dataIndex: 'name', key: 'name', fixed: 'left' },
-  { title: 'Age', width: 100, dataIndex: 'age', key: 'age', fixed: 'left' ,
-  sorter: (a, b) => {
-            // a,b就是数据Data
-        return a.age - b.age ;
-   },
-  },
-  { title: 'Column 1', dataIndex: 'address', key: '1', width: 150 },
-  { title: 'Column 2', dataIndex: 'address', key: '2', width: 150 },
-  { title: 'Column 3', dataIndex: 'address', key: '3', width: 150 },
-  { title: 'Column 4', dataIndex: 'address', key: '4', width: 150 },
-  { title: 'Column 5', dataIndex: 'address', key: '5', width: 150 },
-  { title: 'Column 6', dataIndex: 'address', key: '6', width: 150 },
-  { title: 'Column 7', dataIndex: 'address', key: '7', width: 150 },
-  { title: 'Column 8', dataIndex: 'address', key: '8',},
-
-];
-
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edrward ${i}`,
-    age: i,
-    address: `London Park no. ${i}`,
-  });
-}
+import DownloadXlsx from '@/components/Download_xlsx'  ;
 import Myecharts  from '@/components/My_echarts' ;
-
-
-import {breadcrumb_mixins} from '@/mixins/index' ;
+import moment from 'moment';
+import {breadcrumb_mixins,menuTabelMinxis} from '@/mixins/index' ;
 import mySearch from '@/views/page_analyse/components/search' ;
 const option = {
     title: {
@@ -112,9 +87,8 @@ const option = {
         }
     ]
 };
-  const data1 = [];
 export default {
-  mixins:[breadcrumb_mixins],
+  mixins:[breadcrumb_mixins,menuTabelMinxis],
   provide(){
     return {
       me:this
@@ -123,48 +97,123 @@ export default {
   components:{
       Myecharts,
       mySearch,
+      DownloadXlsx
   },
   data() {
      return {
         x:1500,
         y:500,
-        data,
-        columns,
+        data:[],
         loading:false,
-        propsData:{}
+        propsData:{},
+        startTime:'',
+        endTime:'',
+        paramsObj:{selfFrom:'ri'},
+        columns:[
+          {
+          title: '日期',
+          dataIndex: 'dateTime',
+          key: 'dateTime',
+          },
+          {
+          title: '页面名称',
+          dataIndex: 'tbName',
+          key: 'tbName',
+          },
+          {
+            title: '浏览量',
+            dataIndex: 'pv',
+            key: 'pv',
+            sorter: (a, b) => a.pv - b.pv,
+          },
+          {
+            title: '浏览量人数',
+            dataIndex: 'uv',
+            key: 'uv',
+            sorter: (a, b) => a.uv - b.uv,
+          },
+          {
+            title: '推荐位点击量总计',
+            dataIndex: 'recommendClickCount',
+            key: 'recommendClickCount',
+            sorter: (a, b) => a.recommendClickCount - b.recommendClickCount,
+            },
+          {
+            title: '浏览-点击转化率',
+            dataIndex: 'viewClickRate',
+            key: 'viewClickRate',
+            scopedSlots: { customRender: 'viewClickRate' },
+            sorter: (a, b) => a.viewClickRate - b.viewClickRate,
+          },
+        ],
     };
   },
+  computed:{
+    // 导出报表数据
+    dataSource(){
+        const len = this.data.length ;
+        if(len){
+            const tabel = [] ;
+            const title = this.columns.map(item => item.title );
+            for(let i=0;i<len;i++){}
+            this.data.forEach((item,i) =>{
+                const params = {
+                    [title[0]]: item.dateTime,
+                    [title[1]]: item.tbName,
+                    [title[2]]: item.pv,
+                    [title[3]]: item.uv,
+                    [title[4]]: item.recommendClickCount,
+                    [title[5]]: item.viewClickRate + '%',
+                } ;
+            tabel[i] = params ;
+            })
+            const inputmap = {
+                ri:'日报详情',
+                zhou:'周报详情',
+                yue:'月报详情'
+            }
+            return {tabelName:inputmap[this.paramsObj.selfFrom],arr:tabel};
+        }
+            return {arr:[]}
+    }
+  },
   mounted() {
-    this.$nextTick(()=>{
-        const {width,height} = window.getComputedStyle(this.$refs.table_wrap) ;
-        this.x = parseInt(width) ;
-        this.y = parseInt(height) - 40;
-    })
-    this.propsData = this.$route.params.propsData ;
+    console.log('this.$route.params',this.$route.params.scope);
+    const scopeObj = this.$route.params.scope ;
+    this.paramsObj = scopeObj ;
+    if(scopeObj.selfFrom === 'zhou'){
+      this.startTime = scopeObj.dateTime ;
+      const ee = moment(scopeObj.dateTime).format('E') ;
+      this.endTime = moment(ee).add(7 - start, 'days').format('YYYY-MM-DD');
+    }
+    if(scopeObj.selfFrom === 'yue') {
+      const  [start,end] = [moment(moment(scopeObj.dateTime).format('YYYY-MM-01')), moment(moment(scopeObj.dateTime).add(1, 'months').format('YYYY-MM-01')).subtract(1, 'days')] ;
+      this.startTime = start._i ;
+      this.endTime  = end._i ;
+    }
+    if(scopeObj.selfFrom === 'ri') {
+      this.startTime = this.endTime = scopeObj.dateTime ;
+    }
+    this.getPageviewdwmdata() ;
   },
   methods: {
     searchFn(){
-      console.log(this.$refs.search);
+      this.getPageviewdwmdata()
     },
     getTimesChange(e){
       console.log(e);
     },
-    pageNumberOnChange(pageNumber) {
-      console.log('Page: ', pageNumber);
-      const {current, pageSize} = pageNumber ;
-      if(data1.length !== 0)return ;
-      // HTTP ... this.loading = true ;
-      for (let i = 101; i < 200; i++) {
-        data1.push({
-          key: i,
-          name: `101 ${i}`,
-          age: i,
-          address: `London Park no. ${i}`,
-        });
-      }
-      // this.loading = false ;
-      this.data =  this.data.concat(data1) ;
+    getPageviewdwmdata(){
+      this.loading = true ;
+      const {startTime,endTime} =this;
+      this.$http(`pageviewdwmdata/page?startTime=${startTime}&endTime=${endTime}&size=10000`).then(res =>{
+        this.loading = false ;
+       this.data = res.data.data.records ;
+      })
     },
+    pageNumberOnChange(pageNumber) {
+      console.log(pageNumber);
+    },  
 
 
   },
