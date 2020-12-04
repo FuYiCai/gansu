@@ -21,7 +21,6 @@
            <a-button  style="margin:20px 0" @click="exportExcel">下载报表</a-button>
         </div>
       </a-table>
-
     </div>
    
    </div>

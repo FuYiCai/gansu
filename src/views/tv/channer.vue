@@ -1,6 +1,9 @@
 <template>
   <div class="wrap" >
-    <mySearch ref="search" @search="searchFn" @getTimesChange="getTimesChange" />
+    <mySearch ref="mySearch"
+     inputText="频道名称:"
+     :dataSource="dataSource"
+     @search="searchFn" @getTimesChange="getTimesChange" />
     <!-- table -->
     <div style="flex:1;margin-top:10px;" ref="table_wrap">
         <a-table :columns="columns" bordered  
@@ -146,27 +149,100 @@ export default {
      return {
         x:1500,
         y:450,
-        data,
-        columns,
+        data:[],
+        endTime:'',startTime:'',
+        columns:[
+           { title: '频道名称', dataIndex: 'chName', key: 'chName' },
+           { title: '频道分组', dataIndex: 'chGroup', key: 'chGroup' },
+           { title: '收视人数', dataIndex: 'chViewersCount', key: 'chViewersCount' },
+           { title: '收视次数', dataIndex: 'chCount', key: 'chCount' },
+           { title: '收视时长', dataIndex: 'chTime', key: 'chTime' },
+           { title: '收视份额(人数占比)', dataIndex: 'chViewersRate', key: 'chViewersRate' },
+           { title: '收视份额(次数占比)', dataIndex: 'chCountRate', key: 'chCountRate' },
+           { title: '收视份额(时长占比)', dataIndex: 'chTimeRate', key: 'chTimeRate' },
+           {
+            title: 'Action',
+            fixed: 'right',
+            align:'center',
+            width: 200,
+            scopedSlots: { customRender: 'action' },
+          },
+        ],
         loading:false,
         visible: false,
     };
   },
+    computed:{
+      // 导出报表数据
+      dataSource(){
+          const len = this.data.length ;
+          if(len){
+              const tabel = [] ;
+              const title = this.columns.map(item => item.title !== 'Action'? item.title : '');
+              for(let i=0;i<len;i++){}
+              this.data.forEach((item,i) =>{
+                  const params = {
+                      [title[0]]: item.chName,
+                      [title[1]]: item.chGroup,
+                      [title[2]]: item.chViewersCount,
+                      [title[3]]: item.chCount,
+                      [title[4]]: item.chTime,
+                      [title[5]]: item.chViewersRate,
+                      [title[6]]: item.chCountRate,
+                      [title[7]]: item.chTimeRate,
+                  } ;
+              tabel[i] = params ;
+              })
+              return {tabelName:'频道分析',arr:tabel};
+          }
+              return {arr:[]}
+      }
+  },
   mounted() {
-
+    this.getChanneltvdata()
   },
   methods: {
+    getTimesChange(e){
+        //  日
+        if( typeof e === "string"){
+            this.startTime = this.endTime =  e.split('T')[0];
+            // 周
+        }else if(Array.isArray(e) && typeof e[0] === "string"){
+            const [start,end] = e ;
+            this.startTime = start ;
+            this.endTime = end;
+            // 月
+        }else{
+            const [start,end] = e ;
+            this.startTime = start._i ;
+            this.endTime = end._i;
+        }
+        this.getChanneltvdata()
+    },
     lookdetail(){
       this.$router.push({name: 'Page_visit_detail'})
     },   
     searchFn(){
-      console.log(this.$refs.search);
+      if(this.$refs.mySearch.pickerRange){
+            [this.startTime,this.endTime] = this.$refs.mySearch.pickerRange ;
+        }
+        if(this.$refs.mySearch.inputValue || this.$refs.mySearch.pickerRange) {
+            this.getChanneltvdata()
+        }
     },
-    getTimesChange(e){
-      console.log(e);
+    //  
+    getChanneltvdata(){
+      const inputValue = this.$refs.mySearch && this.$refs.mySearch.inputValue || "" ;
+      const {endTime,startTime} = this;
+      const url = inputValue? `&chName=${inputValue}` : ''
+      this.$http.get(`channeltvdata/page?&size=1000&sysId=${this.$store.getters.masterType}&endTime=${endTime}&startTime=${startTime}${url}`).then(res => {
+        console.log('res',res);
+        this.data = res.data.data.records ;
+      })
     },
     pageNumberOnChange(pageNumber) {
       console.log('Page: ', pageNumber);
+      
       const {current, pageSize} = pageNumber ;
       if(data1.length !== 0)return ;
       // HTTP ... this.loading = true ;
